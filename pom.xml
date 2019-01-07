@@ -684,14 +684,14 @@
 			</plugin>-->
 			
 			<!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
-				<!-- <executions>
+				&lt;!&ndash; <executions>
 					<execution>
 						<phase>prepare-package</phase>
 						<goals>
@@ -706,8 +706,8 @@
 					       	</includes>
 						</configuration>
 					</execution>
-				</executions> -->
-			</plugin>
+				</executions> &ndash;&gt;
+			</plugin>-->
 			
 			<!-- 混淆代码
 			<plugin>
