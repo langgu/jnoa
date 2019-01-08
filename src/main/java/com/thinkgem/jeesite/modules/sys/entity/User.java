@@ -51,6 +51,8 @@ public class User extends DataEntity<User> {
 	private Date oldLoginDate;	// 上次登陆日期
 	
 	private Role role;	// 根据角色查询用户条件
+
+	private String position;   //职务
 	
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
 
@@ -301,7 +303,15 @@ public class User extends DataEntity<User> {
 			roleList.add(role);
 		}
 	}
-	
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	/**
 	 * 用户拥有的角色名称字符串, 多个角色名称用','分隔.
 	 */

@@ -49,13 +49,22 @@ public class InfcUserController extends BaseController {
 	@RequestMapping(value = "getUserInfo",method = RequestMethod.GET)
 	public String getUserInfo(Model model,HttpServletRequest request, HttpServletResponse response) {
 		DataStatus status = new DataStatus();
+		Map<String, Object> data = Maps.newHashMap();
 		String username = request.getParameter("username");  //获取传递参数 username
 		User user = systemService.getUserByLoginName(username);
 		if(user != null){
+			status.setStatusMessage("ok");
 			status.setSuccess("true");
-
+			data.put("userId",user.getId());
+			data.put("loginName",user.getLoginName());
+			data.put("name",user.getName());
+			data.put("position",user.getPosition());
+			data.put("officeId",user.getOffice().getId());
 		}
-
-		return this.renderString(response,user);
+		else{
+			status.setStatusMessage("失败");
+		}
+		status.setData(data);
+		return this.renderString(response,status);
 	}
 }
