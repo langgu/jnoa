@@ -1,18 +1,18 @@
 package com.thinkgem.jeesite.modules.infc.entity;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.Map;
 
-public class DataStatus {
-
+public class DataStatusList {
     private String success;        //是否成功
     private String statusMessage;  //状态信息
-//  private List<Object> data = Lists.newArrayList();	;            //数据集
-    private Map<String, Object> data = Maps.newHashMap();       //数据
+    //  private List<Object> data = Lists.newArrayList();	;            //数据集
+    private List<Map<String, Object>> mapList = Lists.newArrayList();     //数据
 
-    public DataStatus(){
+    public DataStatusList(){
         this.success = "false";
     }
 
@@ -32,11 +32,11 @@ public class DataStatus {
         this.statusMessage = statusMessage;
     }
 
-    public Map<String, Object> getData() {
-        return data;
+    public List<Map<String, Object>> getMapList() {
+        return mapList;
     }
 
-    public void setData(Map<String, Object> data) {
-        this.data = data;
+    public void setMapList(List<Map<String, Object>> mapList) {
+        this.mapList = mapList;
     }
 }
