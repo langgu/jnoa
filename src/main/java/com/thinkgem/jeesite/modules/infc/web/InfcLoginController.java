@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+* @Description:    登录验证接口
+* @Author:         wfp
+* @CreateDate:     2019/1/8 18:14
+*/
 @CrossOrigin
 @Controller
 @RequestMapping(value = "${adminPath}/infc/infclogin")
