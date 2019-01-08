@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.infc;
+package com.thinkgem.jeesite.modules.infc.web;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -94,6 +94,7 @@ public class InfcUserController extends BaseController {
 	public String queryById(User user, Model model,HttpServletRequest request, HttpServletResponse response) {
 		model.addAttribute("user", user);
 		model.addAttribute("allRoles", systemService.findAllRole());
+
 		return this.renderString(response,user);
 	}
 
