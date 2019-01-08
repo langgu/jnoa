@@ -3,12 +3,13 @@ package com.thinkgem.jeesite.modules.infc.entity;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Map;
 
 public class DataStatus {
 
     private String success;        //是否成功
     private String statusMessage;  //状态信息
-    private List<Object> data = Lists.newArrayList();	;            //数据集
+    private List<Map<String, Object>> data = Lists.newArrayList(); //数据集
 
     public DataStatus(){
         this.success = "false";
@@ -30,11 +31,11 @@ public class DataStatus {
         this.statusMessage = statusMessage;
     }
 
-    public List<Object> getData() {
+    public List<Map<String, Object>> getData() {
         return data;
     }
 
-    public void setData(List<Object> data) {
+    public void setData(List<Map<String, Object>> data) {
         this.data = data;
     }
 }
