@@ -10,7 +10,7 @@ public class DataStatusList {
     private String success;        //是否成功
     private String statusMessage;  //状态信息
     //  private List<Object> data = Lists.newArrayList();	;            //数据集
-    private List<Map<String, Object>> mapList = Lists.newArrayList();     //数据
+    private List<Map<String, Object>> data = Lists.newArrayList();     //数据
 
     public DataStatusList(){
         this.success = "false";
@@ -32,11 +32,11 @@ public class DataStatusList {
         this.statusMessage = statusMessage;
     }
 
-    public List<Map<String, Object>> getMapList() {
-        return mapList;
+    public List<Map<String, Object>> getData() {
+        return data;
     }
 
-    public void setMapList(List<Map<String, Object>> mapList) {
-        this.mapList = mapList;
+    public void setData(List<Map<String, Object>> data) {
+        this.data = data;
     }
 }
