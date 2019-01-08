@@ -24,7 +24,7 @@ public class OaNotify extends DataEntity<OaNotify> {
 	private static final long serialVersionUID = 1L;
 //	private String type;		// 类型
 	private String title;		// 标题
-	private String content;		// 类型
+	private String content;		// 内容
 	private String files;		// 附件
 	private String status;		// 状态
 

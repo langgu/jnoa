@@ -15,6 +15,8 @@
 		a.UPDATE_DATE AS "updateDate",
 		a.REMARKS AS "remarks",
 		a.DEL_FLAG AS "delFlag",
+		a.urgent_flag AS "urgentFlag",
+		a.forward_flag AS "forwardFlag",
 	    b.read_num,
 	    b.un_read_num
 	</sql>
@@ -106,6 +108,8 @@
 			UPDATE_BY,
 			UPDATE_DATE,
 			REMARKS,
+		    urgent_flag,
+		    forward_flag,
 			DEL_FLAG
 		) VALUES (
 			#{id},
@@ -119,6 +123,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
+		    #{urgentFlag},
+		    #{forwardFlag},
 			#{delFlag}
 		)
 	</insert>

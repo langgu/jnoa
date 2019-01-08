@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
@@ -60,16 +61,17 @@ public class InfcUserController extends BaseController {
 	public String getUserInfo(HttpServletRequest request, HttpServletResponse response) {
 		DataStatus status = new DataStatus();
 		Map<String, Object> data = Maps.newHashMap();
-		String username = request.getParameter("username");  //获取传递参数 username
-		User user = systemService.getUserByLoginName(username);
+		String userName = request.getParameter("userName");  //获取传递参数 userName
+		User user = systemService.getUserByLoginName(userName);
 		if(user != null){
 			status.setStatusMessage("ok");
 			status.setSuccess("true");
 			data.put("userId",user.getId());
-			data.put("loginName",user.getLoginName());
+			data.put("userName",user.getLoginName());
 			data.put("name",user.getName());
 			data.put("position",user.getPosition());
 			data.put("officeId",user.getOffice().getId());
+			data.put("officeName",user.getOffice().getName());
 		}
 		else{
 			status.setStatusMessage("失败");
@@ -99,7 +101,7 @@ public class InfcUserController extends BaseController {
             List<User> userList = systemService.findUserByOfficeId(office.getId());
             for (User user : userList){
                 Map<String, Object> map2 = Maps.newHashMap();
-                map2.put("id", user.getId());
+                map2.put("id", IdGen.uuid());
                 map2.put("pId", office.getId());
                 map2.put("name",user.getName());
                 map2.put("type", "人员");

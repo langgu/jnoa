@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import java.util.Date;
 
+import com.thinkgem.jeesite.common.utils.IdGen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ import com.thinkgem.jeesite.modules.oa.dao.OaNotifyRecordDao;
 @Service
 @Transactional(readOnly = true)
 public class OaNotifyService extends CrudService<OaNotifyDao, OaNotify> {
+
+	@Autowired
+	private OaNotifyDao oaNotifyDao;
 
 	@Autowired
 	private OaNotifyRecordDao oaNotifyRecordDao;
@@ -79,5 +83,41 @@ public class OaNotifyService extends CrudService<OaNotifyDao, OaNotify> {
 		oaNotifyRecord.setReadDate(new Date());
 		oaNotifyRecord.setReadFlag("1");
 		oaNotifyRecordDao.update(oaNotifyRecord);
+	}
+
+	/**
+	 * @Description:    保存来自接口的通知
+	 * @Author:         wfp
+	 * @CreateDate:     2019/1/9 1:29
+	 */
+	@Transactional(readOnly = false)
+	public void saveByInfc(OaNotify oaNotify, String userIds) {
+		oaNotify.setUpdateBy(oaNotify.getCreateBy());
+		oaNotify.setCreateDate(new Date());
+		oaNotify.setUpdateDate(new Date());
+		oaNotify.setId(IdGen.uuid());
+		oaNotifyDao.insert(oaNotify);
+		String []userId = userIds.split(",");
+		if(userId.length>0){
+			for(int i=0;i<userId.length;i++){
+				OaNotifyRecord oaNotifyRecord = new OaNotifyRecord();
+				oaNotifyRecord.setId(IdGen.uuid());
+				oaNotifyRecord.setOaNotify(oaNotify);
+				oaNotifyRecord.setTitle(oaNotify.getTitle());
+				oaNotifyRecord.setContent(oaNotify.getContent());
+				oaNotifyRecord.setFiles(oaNotify.getFiles());
+				oaNotifyRecord.setReceUserId(userId[i]);
+				oaNotifyRecord.setSendUserId(oaNotify.getCreateBy().getId());
+				oaNotifyRecord.setUrgentFlag(oaNotify.getUrgentFlag());
+				oaNotifyRecord.setForwardFlag(oaNotify.getForwardFlag());
+				oaNotifyRecordDao.insert(oaNotifyRecord);
+			}
+		}
+
+		// 更新发送接受人记录
+//		oaNotifyRecordDao.deleteByOaNotifyId(oaNotify.getId());
+//		if (oaNotify.getOaNotifyRecordList().size() > 0){
+//			oaNotifyRecordDao.insertAll(oaNotify.getOaNotifyRecordList());
+//		}
 	}
 }

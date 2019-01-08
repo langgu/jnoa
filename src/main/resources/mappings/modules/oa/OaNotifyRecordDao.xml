@@ -5,9 +5,15 @@
 	<sql id="oaNotifyRecordColumns">
 		a.ID AS "id",
 		a.OA_NOTIFY_ID AS "oaNotify.id",
-		a.rece_user_id AS "user.id",
 		a.READ_FLAG AS "readFlag",
 		a.READ_DATE AS "readDate",
+		a.send_user_id AS "sendUserId",
+		a.rece_user_id AS "receUserId",
+		a.TITLE AS "title",
+		a.CONTENT AS "content",
+		a.FILES AS "files",
+		a.urgent_flag AS "urgentFlag",
+		a.forward_flag AS "forwardFlag",
 		u.name AS "user.name",
 		o.name AS "user.office.name"
 	</sql>
@@ -52,13 +58,27 @@
 			OA_NOTIFY_ID,
 			rece_user_id,
 			READ_FLAG,
-			READ_DATE
+			READ_DATE,
+			send_user_id,
+		    rece_user_id,
+		    TITLE,
+		    CONTENT,
+		    FILES,
+		    urgent_flag,
+		    forward_flag
 		) VALUES (
 			#{id},
 			#{oaNotify.id},
 			#{user.id},
 			#{readFlag},
-			#{readDate}
+			#{readDate},
+			#{sendUserId},
+			#{receUserId},
+			#{title},
+			#{content},
+			#{files},
+			#{urgentFlag},
+			#{forwardFlag}
 		)
 	</insert>
 	

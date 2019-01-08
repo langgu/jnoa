@@ -34,9 +34,9 @@ public class InfcLoginController extends BaseController {
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         DataStatus status = new DataStatus();
         status.setSuccess("false");
-        String username = request.getParameter("username");  //获取传递参数 username
+        String userName = request.getParameter("userName");  //获取传递参数 username
         String password = request.getParameter("password");  //获取传递参数 password
-        User user = systemService.getUserByLoginName(username);  //先验证用户是否存在
+        User user = systemService.getUserByLoginName(userName);  //先验证用户是否存在
 
         if(user==null){
             status.setStatusMessage("账号不存在");

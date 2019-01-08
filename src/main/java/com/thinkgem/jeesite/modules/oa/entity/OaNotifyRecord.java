@@ -23,7 +23,7 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 	private Date readDate;		// 阅读时间
 	private String title;   //通知通告标题
 	private String content;   //通知通告内容
-	private String file;      //附件
+	private String files;      //附件
 	private String sendUserId;    //发送人
 	private String receUserId;    //接收人
 	private String urgentFlag;    //是否为紧急通知标记
@@ -91,12 +91,13 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 		this.content = content;
 	}
 
-	public String getFile() {
-		return file;
+
+	public String getFiles() {
+		return files;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
+	public void setFiles(String files) {
+		this.files = files;
 	}
 
 	public String getSendUserId() {
