@@ -334,7 +334,7 @@ public class InfcUserController extends BaseController {
 		model.addAttribute("user", user);
 		return "modules/sys/userModifyPwd";
 	}
-	
+
 	@RequiresPermissions("user")
 	@ResponseBody
 	@RequestMapping(value = "treeData")
@@ -351,7 +351,7 @@ public class InfcUserController extends BaseController {
 		}
 		return mapList;
 	}
-    
+
 //	@InitBinder
 //	public void initBinder(WebDataBinder b) {
 //		b.registerCustomEditor(List.class, "roleList", new PropertyEditorSupport(){
