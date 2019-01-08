@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
+import com.thinkgem.jeesite.modules.infc.entity.DataStatusList;
 import com.thinkgem.jeesite.modules.oa.dao.OaNotifyDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaNotify;
 import com.thinkgem.jeesite.modules.oa.service.OaNotifyService;
@@ -95,7 +96,7 @@ public class InfcOaNotifyController extends BaseController {
 	@RequestMapping(value = "oanotify_flist",method = RequestMethod.GET)
 	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
-		DataStatus status = new DataStatus();
+		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
 		status.setStatusMessage("ok");
 		List<Map<String, Object>> mapList = Lists.newArrayList();
@@ -105,7 +106,7 @@ public class InfcOaNotifyController extends BaseController {
 			map.put("title", oaNotify1.getTitle());
 			map.put("content", oaNotify1.getContent());
 			map.put("files", oaNotify1.getFiles());
-			//map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			map.put("urgentFlag", oaNotify1.getUrgentFlag());
 			mapList.add(map);
 		}
 		status.setData(mapList);
@@ -120,7 +121,7 @@ public class InfcOaNotifyController extends BaseController {
 		oaNotify.setSelf(true);
 		String user = request.getParameter("create_by");
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
-		DataStatus status = new DataStatus();
+		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
 		status.setStatusMessage("ok");
 		List<Map<String, Object>> mapList = Lists.newArrayList();
@@ -130,7 +131,7 @@ public class InfcOaNotifyController extends BaseController {
 			map.put("title", oaNotify1.getTitle());
 			map.put("content", oaNotify1.getContent());
 			map.put("files", oaNotify1.getFiles());
-			//map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			map.put("urgentFlag", oaNotify1.getUrgentFlag());
 			mapList.add(map);
 		}
 		status.setData(mapList);
