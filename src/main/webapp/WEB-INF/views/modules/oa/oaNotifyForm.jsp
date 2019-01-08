@@ -28,12 +28,12 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/oa/oaNotify/">通知列表</a></li>
-		<li class="active"><a href="${ctx}/oa/oaNotify/form?id=${oaNotify.id}">通知<shiro:hasPermission name="oa:oaNotify:edit">${oaNotify.status eq '1' ? '查看' : not empty oaNotify.id ? '修改' : '添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:oaNotify:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active"><a href="${ctx}/oa/oaNotify/form?id=${oaNotify.id}">通知<shiro:hasPermission name="oa:oaNotify:edit">${not empty oaNotify.id ? '修改' : '添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:oaNotify:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="oaNotify" action="${ctx}/oa/oaNotify/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>	
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">类型：</label>
 			<div class="controls">
 				<form:select path="type" class="input-xlarge required">
@@ -42,7 +42,7 @@
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>	
+		</div>	--%>
 		<div class="control-group">
 			<label class="control-label">标题：</label>
 			<div class="controls">
@@ -65,13 +65,13 @@
 					<sys:ckfinder input="files" type="files" uploadPath="/oa/notify" selectMultiple="true"/>
 				</div>
 			</div>
-			<div class="control-group">
+			<%--<div class="control-group">
 				<label class="control-label">状态：</label>
 				<div class="controls">
 					<form:radiobuttons path="status" items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 					<span class="help-inline"><font color="red">*</font> 发布后不能进行操作。</span>
 				</div>
-			</div>
+			</div>--%>
 			<div class="control-group">
 				<label class="control-label">接受人：</label>
 				<div class="controls">

@@ -21,6 +21,13 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 	private User user;		// 接受人
 	private String readFlag;		// 阅读标记（0：未读；1：已读）
 	private Date readDate;		// 阅读时间
+	private String title;   //通知通告标题
+	private String content;   //通知通告内容
+	private String file;      //附件
+	private String sendUserId;    //发送人
+	private String receUserId;    //接收人
+	private String urgentFlag;    //是否为紧急通知标记
+	private String forwardFlag;   //是否为转发
 	
 	
 	public OaNotifyRecord() {
@@ -67,5 +74,60 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 	public void setReadDate(Date readDate) {
 		this.readDate = readDate;
 	}
-	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getSendUserId() {
+		return sendUserId;
+	}
+
+	public void setSendUserId(String sendUserId) {
+		this.sendUserId = sendUserId;
+	}
+
+	public String getReceUserId() {
+		return receUserId;
+	}
+
+	public void setReceUserId(String receUserId) {
+		this.receUserId = receUserId;
+	}
+
+	public String getUrgentFlag() {
+		return urgentFlag;
+	}
+
+	public void setUrgentFlag(String urgentFlag) {
+		this.urgentFlag = urgentFlag;
+	}
+
+	public String getForwardFlag() {
+		return forwardFlag;
+	}
+
+	public void setForwardFlag(String forwardFlag) {
+		this.forwardFlag = forwardFlag;
+	}
 }

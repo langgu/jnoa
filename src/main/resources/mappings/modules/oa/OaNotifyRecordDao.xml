@@ -5,7 +5,7 @@
 	<sql id="oaNotifyRecordColumns">
 		a.ID AS "id",
 		a.OA_NOTIFY_ID AS "oaNotify.id",
-		a.USER_ID AS "user.id",
+		a.rece_user_id AS "user.id",
 		a.READ_FLAG AS "readFlag",
 		a.READ_DATE AS "readDate",
 		u.name AS "user.name",
@@ -13,7 +13,7 @@
 	</sql>
 	
 	<sql id="oaNotifyRecordJoins">
-		JOIN sys_user u ON u.id = a.user_id
+		JOIN sys_user u ON u.id = a.rece_user_id
 		JOIN sys_office o ON o.id = u.office_id
 	</sql>
     
@@ -50,7 +50,7 @@
 		INSERT INTO oa_notify_record(
 			ID,
 			OA_NOTIFY_ID,
-			USER_ID,
+			rece_user_id,
 			READ_FLAG,
 			READ_DATE
 		) VALUES (
@@ -66,7 +66,7 @@
 		INSERT INTO oa_notify_record(
 			ID,
 			OA_NOTIFY_ID,
-			USER_ID,
+		    rece_user_id,
 			READ_FLAG,
 			READ_DATE
 		)
@@ -95,7 +95,7 @@
 			READ_FLAG = #{readFlag},
 			READ_DATE = #{readDate}
 		WHERE OA_NOTIFY_ID = #{oaNotify.id}
-			AND USER_ID = #{user.id}
+			AND rece_user_id = #{user.id}
 			AND READ_FLAG != '1'
 	</update>
 	

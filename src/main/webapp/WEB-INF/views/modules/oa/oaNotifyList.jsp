@@ -28,7 +28,7 @@
 			<li><label>标题：</label>
 				<form:input path="title" htmlEscape="false" maxlength="200" class="input-medium"/>
 			</li>
-			<li><label>类型：</label>
+			<%--<li><label>类型：</label>
 				<form:select path="type" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_notify_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -36,7 +36,7 @@
 			</li>
 			<c:if test="${!requestScope.oaNotify.self}"><li><label>状态：</label>
 				<form:radiobuttons path="status" items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</li></c:if>
+			</li></c:if>--%>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -46,8 +46,8 @@
 		<thead>
 			<tr>
 				<th>标题</th>
-				<th>类型</th>
-				<th>状态</th>
+				<%--<th>类型</th>--%>
+				<%--<th>状态</th>--%>
 				<th>查阅状态</th>
 				<th>更新时间</th>
 				<c:if test="${!oaNotify.self}"><shiro:hasPermission name="oa:oaNotify:edit"><th>操作</th></shiro:hasPermission></c:if>
@@ -59,12 +59,12 @@
 				<td><a href="${ctx}/oa/oaNotify/${requestScope.oaNotify.self?'view':'form'}?id=${oaNotify.id}">
 					${fns:abbr(oaNotify.title,50)}
 				</a></td>
-				<td>
+				<%--<td>
 					${fns:getDictLabel(oaNotify.type, 'oa_notify_type', '')}
 				</td>
 				<td>
 					${fns:getDictLabel(oaNotify.status, 'oa_notify_status', '')}
-				</td>
+				</td>--%>
 				<td>
 					<c:if test="${requestScope.oaNotify.self}">
 						${fns:getDictLabel(oaNotify.readFlag, 'oa_notify_read', '')}
