@@ -73,10 +73,10 @@ public class OaNotifyController extends BaseController {
 		// 如果是修改，则状态为已发布，则不能再进行操作
 		if (StringUtils.isNotBlank(oaNotify.getId())){
 			OaNotify e = oaNotifyService.get(oaNotify.getId());
-			if ("1".equals(e.getStatus())){
+			/*if ("1".equals(e.getStatus())){
 				addMessage(redirectAttributes, "已发布，不能操作！");
 				return "redirect:" + adminPath + "/oa/oaNotify/form?id="+oaNotify.getId();
-			}
+			}*/
 		}
 		oaNotifyService.save(oaNotify);
 		addMessage(redirectAttributes, "保存通知'" + oaNotify.getTitle() + "'成功");

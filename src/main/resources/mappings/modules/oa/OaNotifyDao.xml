@@ -4,11 +4,11 @@
     
 	<sql id="oaNotifyColumns">
 		a.ID AS "id",
-		a.TYPE AS "type",
+ 		/*a.TYPE AS "type",*/
 		a.TITLE AS "title",
 		a.CONTENT AS "content",
 		a.FILES AS "files",
-		a.STATUS AS "status",
+     	/*a.STATUS AS "status",*/
 		a.CREATE_BY AS "createBy.id",
 		a.CREATE_DATE AS "createDate",
 		a.UPDATE_BY AS "updateBy.id",
@@ -47,7 +47,7 @@
 		<include refid="oaNotifyJoins"/>
 		<!-- 我的通知 -->
 		<if test="isSelf">
-			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.user_id = #{currentUser.id}
+			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.rece_user_id = #{currentUser.id}
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="title != null and title != ''">
@@ -56,15 +56,15 @@
 					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
 		</if>
-		<if test="type != null and type != ''">
+		<!--<if test="type != null and type != ''">
 			AND a.TYPE = #{type}
-		</if>
-		<if test="status != null and status != ''">
+		</if>-->
+		<!--<if test="status != null and status != ''">
 			AND a.STATUS = #{status}
 		</if>
 		<if test="isSelf">
 			AND a.STATUS = '1'
-		</if>
+		</if>-->
 		ORDER BY a.update_date DESC
 	</select>
 	
@@ -82,25 +82,25 @@
 			count(1)
 		FROM oa_notify a
 		<if test="isSelf">
-			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.user_id = #{currentUser.id}
+			JOIN oa_notify_record r ON r.oa_notify_id = a.id AND r.rece_user_id = #{currentUser.id}
 				<if test="readFlag != null and readFlag != ''">
 					AND r.read_flag = #{readFlag}
 				</if>
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		<if test="isSelf">
+		<!--<if test="isSelf">
 			AND a.STATUS = '1'
-		</if>
+		</if>-->
 	</select>
 	
 	<insert id="insert">
 		INSERT INTO oa_notify(
 			ID,
-			TYPE,
+			<!--TYPE,-->
 			TITLE,
 			CONTENT,
 			FILES,
-			STATUS,
+		<!--STATUS,-->
 			CREATE_BY,
 			CREATE_DATE,
 			UPDATE_BY,
@@ -109,11 +109,11 @@
 			DEL_FLAG
 		) VALUES (
 			#{id},
-			#{type},
+			<!--#{type},-->
 			#{title},
 			#{content},
 			#{files},
-			#{status},
+			<!--#{status},-->
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
@@ -124,12 +124,12 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE oa_notify SET 	
-			TYPE = #{type},
+		UPDATE oa_notify SET
+			<!--TYPE = #{type},-->
 			TITLE = #{title},
 			CONTENT = #{content},
 			FILES = #{files},
-			STATUS = #{status},
+			<!--STATUS = #{status},-->
 			UPDATE_BY = #{updateBy.id},
 			UPDATE_DATE = #{updateDate},
 			REMARKS = #{remarks}

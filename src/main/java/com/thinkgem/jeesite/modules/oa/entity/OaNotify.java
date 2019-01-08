@@ -22,7 +22,7 @@ import com.thinkgem.jeesite.modules.sys.entity.User;
 public class OaNotify extends DataEntity<OaNotify> {
 	
 	private static final long serialVersionUID = 1L;
-	private String type;		// 类型
+//	private String type;		// 类型
 	private String title;		// 标题
 	private String content;		// 类型
 	private String files;		// 附件
@@ -34,6 +34,9 @@ public class OaNotify extends DataEntity<OaNotify> {
 	private boolean isSelf;		// 是否只查询自己的通知
 	
 	private String readFlag;	// 本人阅读状态
+
+	private String urgentFlag;    //是否为紧急信息标志
+	private String forwardFlag;   //是否为转发
 	
 	private List<OaNotifyRecord> oaNotifyRecordList = Lists.newArrayList();
 	
@@ -53,16 +56,16 @@ public class OaNotify extends DataEntity<OaNotify> {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	@Length(min=0, max=1, message="类型长度必须介于 0 和 1 之间")
+
+	/*@Length(min=0, max=1, message="类型长度必须介于 0 和 1 之间")
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
-	}
-	
+	}*/
+
 	@Length(min=0, max=1, message="状态长度必须介于 0 和 1 之间")
 	public String getStatus() {
 		return status;
@@ -167,5 +170,21 @@ public class OaNotify extends DataEntity<OaNotify> {
 
 	public void setReadFlag(String readFlag) {
 		this.readFlag = readFlag;
+	}
+
+	public String getUrgentFlag() {
+		return urgentFlag;
+	}
+
+	public void setUrgentFlag(String urgentFlag) {
+		this.urgentFlag = urgentFlag;
+	}
+
+	public String getForwardFlag() {
+		return forwardFlag;
+	}
+
+	public void setForwardFlag(String forwardFlag) {
+		this.forwardFlag = forwardFlag;
 	}
 }
