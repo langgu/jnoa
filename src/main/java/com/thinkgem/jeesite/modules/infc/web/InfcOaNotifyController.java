@@ -1,11 +1,15 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.infc;
+package com.thinkgem.jeesite.modules.infc.web;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
+import com.thinkgem.jeesite.modules.oa.dao.OaNotifyDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaNotify;
 import com.thinkgem.jeesite.modules.oa.service.OaNotifyService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 通知通告Controller
@@ -30,7 +36,9 @@ public class InfcOaNotifyController extends BaseController {
 
 	@Autowired
 	private OaNotifyService oaNotifyService;
-	
+	@Autowired
+	private OaNotifyDao oaNotifyDao;
+
 	@ModelAttribute
 	public OaNotify get(@RequestParam(required=false) String id) {
 		OaNotify entity = null;
@@ -43,12 +51,6 @@ public class InfcOaNotifyController extends BaseController {
 		return entity;
 	}
 
-	@RequestMapping(value = "oanotify_list",method = RequestMethod.GET)
-	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify);
-		model.addAttribute("page", page);
-		return "modules/oa/oaNotifyList";
-	}
 
 	@RequiresPermissions("oa:oaNotify:view")
 	@RequestMapping(value = "form")
@@ -78,7 +80,7 @@ public class InfcOaNotifyController extends BaseController {
 		addMessage(redirectAttributes, "保存通知'" + oaNotify.getTitle() + "'成功");
 		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
 	}
-	
+
 	@RequiresPermissions("oa:oaNotify:edit")
 	@RequestMapping(value = "delete")
 	public String delete(OaNotify oaNotify, RedirectAttributes redirectAttributes) {
@@ -86,16 +88,53 @@ public class InfcOaNotifyController extends BaseController {
 		addMessage(redirectAttributes, "删除通知成功");
 		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
 	}
-	
+
+	/**
+	 * 所有通知列表
+	 */
+	@RequestMapping(value = "oanotify_flist",method = RequestMethod.GET)
+	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
+		DataStatus status = new DataStatus();
+		status.setSuccess("true");
+		status.setStatusMessage("ok");
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		for(OaNotify oaNotify1 : oaNotifyList){
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", oaNotify1.getId());
+			map.put("title", oaNotify1.getTitle());
+			map.put("content", oaNotify1.getContent());
+			map.put("files", oaNotify1.getFiles());
+			//map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			mapList.add(map);
+		}
+		status.setData(mapList);
+		return this.renderString(response,status);
+	}
+
 	/**
 	 * 我的通知列表
 	 */
-	@RequestMapping(value = "self")
+	@RequestMapping(value = "selfList",method = RequestMethod.GET)
 	public String selfList(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
 		oaNotify.setSelf(true);
-		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify); 
-		model.addAttribute("page", page);
-		return "modules/oa/oaNotifyList";
+		String user = request.getParameter("create_by");
+		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
+		DataStatus status = new DataStatus();
+		status.setSuccess("true");
+		status.setStatusMessage("ok");
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		for(OaNotify oaNotify1 : oaNotifyList){
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", oaNotify1.getId());
+			map.put("title", oaNotify1.getTitle());
+			map.put("content", oaNotify1.getContent());
+			map.put("files", oaNotify1.getFiles());
+			//map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			mapList.add(map);
+		}
+		status.setData(mapList);
+		return this.renderString(response,status);
 	}
 
 	/**
@@ -109,7 +148,7 @@ public class InfcOaNotifyController extends BaseController {
 		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify);
 		return page;
 	}
-	
+
 	/**
 	 * 查看我的通知
 	 */
@@ -136,7 +175,7 @@ public class InfcOaNotifyController extends BaseController {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 查看我的通知-发送记录
 	 */
@@ -149,7 +188,7 @@ public class InfcOaNotifyController extends BaseController {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 获取我的通知数目
 	 */
