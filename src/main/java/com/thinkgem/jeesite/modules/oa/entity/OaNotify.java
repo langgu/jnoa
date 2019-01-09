@@ -37,6 +37,8 @@ public class OaNotify extends DataEntity<OaNotify> {
 
 	private String urgentFlag;    //是否为紧急信息标志
 	private String forwardFlag;   //是否为转发
+	private String receUserIds;   //接收人字符串拼接
+	private String sendUserId;    //发送人id
 	
 	private List<OaNotifyRecord> oaNotifyRecordList = Lists.newArrayList();
 	
@@ -186,5 +188,21 @@ public class OaNotify extends DataEntity<OaNotify> {
 
 	public void setForwardFlag(String forwardFlag) {
 		this.forwardFlag = forwardFlag;
+	}
+
+	public String getReceUserIds() {
+		return receUserIds;
+	}
+
+	public void setReceUserIds(String receUserIds) {
+		this.receUserIds = receUserIds;
+	}
+
+	public String getSendUserId() {
+		return sendUserId;
+	}
+
+	public void setSendUserId(String sendUserId) {
+		this.sendUserId = sendUserId;
 	}
 }
