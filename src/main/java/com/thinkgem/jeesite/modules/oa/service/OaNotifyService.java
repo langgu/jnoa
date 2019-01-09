@@ -106,7 +106,6 @@ public class OaNotifyService extends CrudService<OaNotifyDao, OaNotify> {
 				oaNotifyRecord.setReceUserId(userId[i]);
 				oaNotifyRecord.setSendUserId(oaNotify.getCreateBy().getId());
 				oaNotifyRecord.setUrgentFlag(oaNotify.getUrgentFlag());
-				oaNotifyRecord.setForwardFlag(oaNotify.getForwardFlag());
 				oaNotifyRecordDao.insert(oaNotifyRecord);
 			}
 		}
