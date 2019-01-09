@@ -91,9 +91,9 @@
 				</if>
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		<if test="isSelf">
+		<!--<if test="isSelf">
 			AND a.STATUS = '1'
-		</if>
+		</if>-->
 	</select>
 
 	<insert id="insert">

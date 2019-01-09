@@ -92,9 +92,6 @@ public class OaNotifyService extends CrudService<OaNotifyDao, OaNotify> {
 	 */
 	@Transactional(readOnly = false)
 	public void saveByInfc(OaNotify oaNotify, String userIds) {
-		oaNotify.setUpdateBy(oaNotify.getCreateBy());
-		oaNotify.setCreateDate(new Date());
-		oaNotify.setUpdateDate(new Date());
 		oaNotify.setId(IdGen.uuid());
 		oaNotifyDao.insert(oaNotify);
 		String []userId = userIds.split(",");
