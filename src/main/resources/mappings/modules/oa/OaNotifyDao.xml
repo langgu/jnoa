@@ -15,6 +15,7 @@
 		a.UPDATE_DATE AS "updateDate",
 		a.REMARKS AS "remarks",
 		a.DEL_FLAG AS "delFlag",
+		a.urgent_flag as "urgentFlag",
 	    b.read_num,
 	    b.un_read_num
 	</sql>
@@ -102,6 +103,7 @@
 			<!--TYPE,-->
 			TITLE,
 			CONTENT,
+		    URGENT_FLAG,
 			FILES,
 		<!--STATUS,-->
 			CREATE_BY,
@@ -115,6 +117,7 @@
 			<!--#{type},-->
 			#{title},
 			#{content},
+		    #{urgentFlag},
 			#{files},
 			<!--#{status},-->
 			#{createBy.id},
