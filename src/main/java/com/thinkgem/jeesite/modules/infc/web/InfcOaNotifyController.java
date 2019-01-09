@@ -26,6 +26,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,22 +64,25 @@ public class InfcOaNotifyController extends BaseController {
 		Map<String,Object> map = Maps.newHashMap();
 		entity = oaNotifyService.getRecordList(entity);
 		List<OaNotifyRecord> list = entity.getOaNotifyRecordList();
-		map.put("id", entity.getId());
 		map.put("title", entity.getTitle());
 		map.put("content", entity.getContent());
 		map.put("files", entity.getFiles());
 		map.put("urgentFlag", entity.getUrgentFlag());
-		List<Map<String, Object>> listdata = Lists.newArrayList();
-		for (int i=0;i<list.size();i++){
-			Map<String,Object> map2 = Maps.newHashMap();
-			OaNotifyRecord oaNotifyRecord1 = oaNotifyRecordDao.get(list.get(i).getId());
-			map2.put("userid",oaNotifyRecord1.getReceUserId());
-			User user = UserUtils.get(oaNotifyRecord1.getReceUserId());
-			String username = user.getName();
-			map2.put("username",username);
-            listdata.add(map2);
-		}
-		map.put("listdata", listdata);
+		map.put("send_user_name",UserUtils.get(entity.getCreateBy().getId()).getName());
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		String reTime = format.format(entity.getCreateDate());
+		map.put("send_date",reTime);
+		//List<Map<String, Object>> listdata = Lists.newArrayList();
+		//for (int i=0;i<list.size();i++){
+		//	Map<String,Object> map2 = Maps.newHashMap();
+		//	OaNotifyRecord oaNotifyRecord1 = oaNotifyRecordDao.get(list.get(i).getId());
+		//	map2.put("userid",oaNotifyRecord1.getReceUserId());
+		//	User user = UserUtils.get(oaNotifyRecord1.getReceUserId());
+		//	String username = user.getName();
+		//	map2.put("username",username);
+         //   listdata.add(map2);
+		//}
+		//map.put("listdata", listdata);
 		DataStatus status = new DataStatus();
 		status.setSuccess("true");
 		status.setStatusMessage("ok");
@@ -86,10 +92,13 @@ public class InfcOaNotifyController extends BaseController {
 
 
 	/**
-	 * 所有通知列表
+	 * 我发布的通知通告列表
 	 */
 	@RequestMapping(value = "oanotify_flist",method = RequestMethod.GET)
 	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
+		String userid = request.getParameter("id");//当前用户
+		User user = UserUtils.get(userid);
+		oaNotify.setCreateBy(user);
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
@@ -97,11 +106,15 @@ public class InfcOaNotifyController extends BaseController {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
 			Map<String, Object> map = Maps.newHashMap();
-			map.put("id", oaNotify1.getId());
+			//map.put("id", oaNotify1.getId());
 			map.put("title", oaNotify1.getTitle());
 			map.put("content", oaNotify1.getContent());
 			map.put("files", oaNotify1.getFiles());
 			map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			map.put("send_user_name",UserUtils.get(oaNotify1.getCreateBy().getId()).getName());
+			DateFormat format = new SimpleDateFormat("yyyyMMdd");
+			String reTime = format.format(oaNotify1.getCreateDate());
+			map.put("send_date",reTime);
 			mapList.add(map);
 		}
 		status.setData(mapList);
@@ -125,18 +138,20 @@ public class InfcOaNotifyController extends BaseController {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
 			Map<String, Object> map = Maps.newHashMap();
-			map.put("id", oaNotify1.getId());
+			//map.put("id", oaNotify1.getId());
 			map.put("title", oaNotify1.getTitle());
 			map.put("content", oaNotify1.getContent());
 			map.put("files", oaNotify1.getFiles());
 			map.put("urgentFlag", oaNotify1.getUrgentFlag());
+			map.put("send_user_name",UserUtils.get(oaNotify1.getCreateBy().getId()).getName());
+			DateFormat format = new SimpleDateFormat("yyyyMMdd");
+			String reTime = format.format(oaNotify1.getCreateDate());
+			map.put("send_date",reTime);
 			mapList.add(map);
 		}
 		status.setData(mapList);
 		return this.renderString(response,status);
 	}
-
-
 
 
 }
