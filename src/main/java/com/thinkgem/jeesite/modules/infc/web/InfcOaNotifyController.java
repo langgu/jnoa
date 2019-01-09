@@ -11,8 +11,12 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatusList;
 import com.thinkgem.jeesite.modules.oa.dao.OaNotifyDao;
+import com.thinkgem.jeesite.modules.oa.dao.OaNotifyRecordDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaNotify;
+import com.thinkgem.jeesite.modules.oa.entity.OaNotifyRecord;
 import com.thinkgem.jeesite.modules.oa.service.OaNotifyService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,56 +43,47 @@ public class InfcOaNotifyController extends BaseController {
 	private OaNotifyService oaNotifyService;
 	@Autowired
 	private OaNotifyDao oaNotifyDao;
+	@Autowired
+	private OaNotifyRecordDao oaNotifyRecordDao;
 
-	@ModelAttribute
-	public OaNotify get(@RequestParam(required=false) String id) {
+
+	@ResponseBody
+	@RequestMapping(value = "oanotify_detail",method = RequestMethod.GET)
+	public String get(HttpServletRequest request, HttpServletResponse response) {
+		String oanotifyId = request.getParameter("id");
 		OaNotify entity = null;
-		if (StringUtils.isNotBlank(id)){
-			entity = oaNotifyService.get(id);
+		if (StringUtils.isNotBlank(oanotifyId)){
+			entity = oaNotifyService.get(oanotifyId);
 		}
 		if (entity == null){
 			entity = new OaNotify();
 		}
-		return entity;
-	}
-
-
-	@RequiresPermissions("oa:oaNotify:view")
-	@RequestMapping(value = "form")
-	public String form(OaNotify oaNotify, Model model) {
-		if (StringUtils.isNotBlank(oaNotify.getId())){
-			oaNotify = oaNotifyService.getRecordList(oaNotify);
+		Map<String,Object> map = Maps.newHashMap();
+		entity = oaNotifyService.getRecordList(entity);
+		List<OaNotifyRecord> list = entity.getOaNotifyRecordList();
+		map.put("id", entity.getId());
+		map.put("title", entity.getTitle());
+		map.put("content", entity.getContent());
+		map.put("files", entity.getFiles());
+		map.put("urgentFlag", entity.getUrgentFlag());
+		List<Map<String, Object>> listdata = Lists.newArrayList();
+		for (int i=0;i<list.size();i++){
+			Map<String,Object> map2 = Maps.newHashMap();
+			OaNotifyRecord oaNotifyRecord1 = oaNotifyRecordDao.get(list.get(i).getId());
+			map2.put("userid",oaNotifyRecord1.getReceUserId());
+			User user = UserUtils.get(oaNotifyRecord1.getReceUserId());
+			String username = user.getName();
+			map2.put("username",username);
+            listdata.add(map2);
 		}
-		model.addAttribute("oaNotify", oaNotify);
-		return "modules/oa/oaNotifyForm";
+		map.put("listdata", listdata);
+		DataStatus status = new DataStatus();
+		status.setSuccess("true");
+		status.setStatusMessage("ok");
+		status.setData(map);
+		return this.renderString(response,status);
 	}
 
-	@RequiresPermissions("oa:oaNotify:edit")
-	@RequestMapping(value = "save")
-	public String save(OaNotify oaNotify, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, oaNotify)){
-			return form(oaNotify, model);
-		}
-		// 如果是修改，则状态为已发布，则不能再进行操作
-		if (StringUtils.isNotBlank(oaNotify.getId())){
-			OaNotify e = oaNotifyService.get(oaNotify.getId());
-			if ("1".equals(e.getStatus())){
-				addMessage(redirectAttributes, "已发布，不能操作！");
-				return "redirect:" + adminPath + "/oa/oaNotify/form?id="+oaNotify.getId();
-			}
-		}
-		oaNotifyService.save(oaNotify);
-		addMessage(redirectAttributes, "保存通知'" + oaNotify.getTitle() + "'成功");
-		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
-	}
-
-	@RequiresPermissions("oa:oaNotify:edit")
-	@RequestMapping(value = "delete")
-	public String delete(OaNotify oaNotify, RedirectAttributes redirectAttributes) {
-		oaNotifyService.delete(oaNotify);
-		addMessage(redirectAttributes, "删除通知成功");
-		return "redirect:" + adminPath + "/oa/oaNotify/?repage";
-	}
 
 	/**
 	 * 所有通知列表
@@ -117,9 +112,12 @@ public class InfcOaNotifyController extends BaseController {
 	 * 我的通知列表
 	 */
 	@RequestMapping(value = "selfList",method = RequestMethod.GET)
-	public String selfList(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
-		oaNotify.setSelf(true);
-		String user = request.getParameter("create_by");
+	public String selfList(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response) {
+		//手机端传来当前用户的id  create_by，然后查询出本用户接收到的通知通告
+		String userid = request.getParameter("userid");
+		User user = UserUtils.get(userid);
+		oaNotify.setCurrentUser(user);
+		oaNotify.setSelf(true);//查询出我接收到的信息
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
@@ -138,66 +136,7 @@ public class InfcOaNotifyController extends BaseController {
 		return this.renderString(response,status);
 	}
 
-	/**
-	 * 我的通知列表-数据
-	 */
-	@RequiresPermissions("oa:oaNotify:view")
-	@RequestMapping(value = "selfData")
-	@ResponseBody
-	public Page<OaNotify> listData(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
-		oaNotify.setSelf(true);
-		Page<OaNotify> page = oaNotifyService.find(new Page<OaNotify>(request, response), oaNotify);
-		return page;
-	}
 
-	/**
-	 * 查看我的通知
-	 */
-	@RequestMapping(value = "view")
-	public String view(OaNotify oaNotify, Model model) {
-		if (StringUtils.isNotBlank(oaNotify.getId())){
-			oaNotifyService.updateReadFlag(oaNotify);
-			oaNotify = oaNotifyService.getRecordList(oaNotify);
-			model.addAttribute("oaNotify", oaNotify);
-			return "modules/oa/oaNotifyForm";
-		}
-		return "redirect:" + adminPath + "/oa/oaNotify/self?repage";
-	}
 
-	/**
-	 * 查看我的通知-数据
-	 */
-	@RequestMapping(value = "viewData")
-	@ResponseBody
-	public OaNotify viewData(OaNotify oaNotify, Model model) {
-		if (StringUtils.isNotBlank(oaNotify.getId())){
-			oaNotifyService.updateReadFlag(oaNotify);
-			return oaNotify;
-		}
-		return null;
-	}
 
-	/**
-	 * 查看我的通知-发送记录
-	 */
-	@RequestMapping(value = "viewRecordData")
-	@ResponseBody
-	public OaNotify viewRecordData(OaNotify oaNotify, Model model) {
-		if (StringUtils.isNotBlank(oaNotify.getId())){
-			oaNotify = oaNotifyService.getRecordList(oaNotify);
-			return oaNotify;
-		}
-		return null;
-	}
-
-	/**
-	 * 获取我的通知数目
-	 */
-	@RequestMapping(value = "self/count")
-	@ResponseBody
-	public String selfCount(OaNotify oaNotify, Model model) {
-		oaNotify.setSelf(true);
-		oaNotify.setReadFlag("0");
-		return String.valueOf(oaNotifyService.findCount(oaNotify));
-	}
 }

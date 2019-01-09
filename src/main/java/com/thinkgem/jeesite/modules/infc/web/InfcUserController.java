@@ -94,7 +94,6 @@ public class InfcUserController extends BaseController {
             Map<String,Object> map = Maps.newHashMap();
             map.put("id", office.getId());
             map.put("pId", office.getParentId());
-//            map.put("pIds", office.getParentIds());
             map.put("name", office.getName());
             map.put("type", "部门");
             data.add(map);

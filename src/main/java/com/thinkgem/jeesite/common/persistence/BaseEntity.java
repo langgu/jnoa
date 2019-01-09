@@ -38,6 +38,19 @@ public abstract class BaseEntity<T> implements Serializable {
 	 * 当前用户
 	 */
 	protected User currentUser;
+
+	public String getCurrentUserId() {
+		return currentUserId;
+	}
+
+	public void setCurrentUserId(String currentUserId) {
+		this.currentUserId = currentUserId;
+	}
+
+	/**
+	 * 手机端当前用户
+	 */
+	protected String currentUserId;
 	
 	/**
 	 * 当前实体分页对象
