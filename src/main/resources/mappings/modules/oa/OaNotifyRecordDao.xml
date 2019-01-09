@@ -56,7 +56,6 @@
 		INSERT INTO oa_notify_record(
 			ID,
 			OA_NOTIFY_ID,
-			rece_user_id,
 			READ_FLAG,
 			READ_DATE,
 			send_user_id,
@@ -69,7 +68,6 @@
 		) VALUES (
 			#{id},
 			#{oaNotify.id},
-			#{user.id},
 			#{readFlag},
 			#{readDate},
 			#{sendUserId},
