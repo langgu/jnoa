@@ -15,32 +15,30 @@
 		a.UPDATE_DATE AS "updateDate",
 		a.REMARKS AS "remarks",
 		a.DEL_FLAG AS "delFlag",
-		a.urgent_flag AS "urgentFlag",
-		a.forward_flag AS "forwardFlag",
 	    b.read_num,
 	    b.un_read_num
 	</sql>
-	
+
 	<sql id="oaNotifyJoins">
 		<!-- 查询已读和未读条数 -->
 		LEFT JOIN (
-            SELECT r.oa_notify_id, 
+            SELECT r.oa_notify_id,
                    sum(case when r.read_flag = '1' then 1 else 0 end) read_num,
-                   sum(case when r.read_flag != '1' then 1 else 0 end) un_read_num 
+                   sum(case when r.read_flag != '1' then 1 else 0 end) un_read_num
             FROM oa_notify_record r GROUP BY r.oa_notify_id
     	) b ON b.oa_notify_id = a.id
 	</sql>
-    
+
 	<select id="get" resultType="OaNotify">
-		SELECT 
+		SELECT
 			<include refid="oaNotifyColumns"/>
 		FROM oa_notify a
 		<include refid="oaNotifyJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+
 	<select id="findList" resultType="OaNotify">
-		SELECT 
+		SELECT
 			<include refid="oaNotifyColumns"/>
 			<if test="isSelf">,
 				r.read_flag
@@ -53,7 +51,7 @@
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		<if test="title != null and title != ''">
-			AND a.TITLE LIKE 
+			AND a.TITLE LIKE
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
 					<if test="dbName == 'mysql'">CONCAT('%', #{title}, '%')</if>
@@ -69,18 +67,18 @@
 		</if>-->
 		ORDER BY a.update_date DESC
 	</select>
-	
+
 	<select id="findAllList" resultType="OaNotify">
-		SELECT 
+		SELECT
 			<include refid="oaNotifyColumns"/>
 		FROM oa_notify a
 		<include refid="oaNotifyJoins"/>
-		WHERE a.del_flag = #{DEL_FLAG_NORMAL} 
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
 		ORDER BY a.update_date DESC
 	</select>
-	
+
 	<select id="findCount" resultType="Long">
-		SELECT 
+		SELECT
 			count(1)
 		FROM oa_notify a
 		<if test="isSelf">
@@ -90,11 +88,11 @@
 				</if>
 		</if>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		<!--<if test="isSelf">
+		<if test="isSelf">
 			AND a.STATUS = '1'
-		</if>-->
+		</if>
 	</select>
-	
+
 	<insert id="insert">
 		INSERT INTO oa_notify(
 			ID,
@@ -108,8 +106,6 @@
 			UPDATE_BY,
 			UPDATE_DATE,
 			REMARKS,
-		    urgent_flag,
-		    forward_flag,
 			DEL_FLAG
 		) VALUES (
 			#{id},
@@ -123,8 +119,6 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-		    #{urgentFlag},
-		    #{forwardFlag},
 			#{delFlag}
 		)
 	</insert>
