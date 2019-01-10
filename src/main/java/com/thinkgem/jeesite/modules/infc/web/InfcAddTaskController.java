@@ -47,7 +47,7 @@ public class InfcAddTaskController extends BaseController {
         String createBy = oaTask.getSendUserId();  //发送人
         String userIds = oaTask.getReceUserIds();  //接收人
         String forwardFlag = oaTask.getForwardFlag();  //是否转发标记
-        if(title != null && content != null && createBy != null && userIds!= null){
+        if(title != null && content != null && createBy != null && userIds!= null && forwardFlag !=null){
             User user = UserUtils.get(createBy);
             oaTask.setCreateBy(user);
             oaTask.setCreateDate(new Date());
