@@ -35,7 +35,7 @@ public class OaTaskRecord extends DataEntity<OaTaskRecord> {
 	private String month;		// 月
 	private String day;		// 日
 	private List<OaTaskReply> oaTaskReplyList = Lists.newArrayList();		// 子表列表
-	
+
 	public OaTaskRecord() {
 		super();
 	}

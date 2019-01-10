@@ -26,7 +26,9 @@ public class OaTask extends DataEntity<OaTask> {
 	private String month;		// 月
 	private String day;		// 日
 	private List<OaTaskRecord> oaTaskRecordList = Lists.newArrayList();		// 子表列表
-	
+	private String receUserIds;   //接收人字符串拼接
+	private String sendUserId;    //发送人id
+
 	public OaTask() {
 		super();
 	}
@@ -113,5 +115,21 @@ public class OaTask extends DataEntity<OaTask> {
 
 	public void setOaTaskRecordList(List<OaTaskRecord> oaTaskRecordList) {
 		this.oaTaskRecordList = oaTaskRecordList;
+	}
+
+	public String getReceUserIds() {
+		return receUserIds;
+	}
+
+	public void setReceUserIds(String receUserIds) {
+		this.receUserIds = receUserIds;
+	}
+
+	public String getSendUserId() {
+		return sendUserId;
+	}
+
+	public void setSendUserId(String sendUserId) {
+		this.sendUserId = sendUserId;
 	}
 }

@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 import java.util.List;
 
 import com.thinkgem.jeesite.modules.oa.entity.OaTask;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,13 +63,6 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 		 *发送时间---发送时间
 		 */
 		super.save(oaTaskRecord);
-		OaTask oaTask = oaTaskService.get(oaTaskRecord.getOaTask().getId());
-		oaTaskRecord.setTitle(oaTask.getTitle());
-		oaTaskRecord.setContent(oaTask.getContent());
-		oaTaskRecord.setSendUser(oaTask.getCreateBy());
-		oaTaskRecord.setSendDate(oaTask.getCreateDate());
-		oaTaskRecordDao.updateTsakinfo(oaTaskRecord);
-
 		for (OaTaskReply oaTaskReply : oaTaskRecord.getOaTaskReplyList()){
 			if (oaTaskReply.getId() == null){
 				continue;
@@ -87,11 +81,20 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 			}
 		}
 	}
-
+	
 	@Transactional(readOnly = false)
 	public void delete(OaTaskRecord oaTaskRecord) {
 		super.delete(oaTaskRecord);
 		oaTaskReplyDao.delete(new OaTaskReply(oaTaskRecord));
 	}
 
+	/**
+	* @Description:    新增app端口的任务回复记录
+	* @Author:         wfp
+	* @CreateDate:     2019/1/10 20:48
+	*/
+	public void saveByInfcReply(OaTaskReply oaTaskReply) {
+		oaTaskReply.setId(IdGen.uuid());
+		oaTaskReplyDao.insert(oaTaskReply);
+	}
 }
