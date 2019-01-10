@@ -49,7 +49,9 @@ public class InfcOaNotifyController extends BaseController {
 	@Autowired
 	private OaNotifyRecordDao oaNotifyRecordDao;
 
-
+	/**
+	 * 通告详情
+	 */
 	@ResponseBody
 	@RequestMapping(value = "oanotify_detail",method = RequestMethod.GET)
 	public String get(HttpServletRequest request, HttpServletResponse response) {
@@ -102,7 +104,12 @@ public class InfcOaNotifyController extends BaseController {
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
-		status.setStatusMessage("ok");
+
+		if (oaNotifyList.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
 			Map<String, Object> map = Maps.newHashMap();
@@ -134,6 +141,11 @@ public class InfcOaNotifyController extends BaseController {
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
+		if (oaNotifyList.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
 		status.setStatusMessage("ok");
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
