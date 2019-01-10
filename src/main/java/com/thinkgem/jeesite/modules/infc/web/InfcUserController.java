@@ -81,7 +81,7 @@ public class InfcUserController extends BaseController {
 	}
 
 	/**
-	* @Description:    部门及人员信息
+	* @Description:    获取部门及人员信息
 	* @Author:         wfp
 	* @CreateDate:     2019/1/8 18:32
 	*/
@@ -114,4 +114,27 @@ public class InfcUserController extends BaseController {
         status.setData(data);
         return this.renderString(response,status);
     }
+
+    /**
+    * @Description:    更新密码
+    * @Author:         wfp
+    * @CreateDate:     2019/1/10 21:07
+    */
+	@RequestMapping(value = "updatePassword",method = RequestMethod.GET)
+	public String updatePassword(HttpServletRequest request, HttpServletResponse response) {
+		DataStatus status = new DataStatus();
+		String userName = request.getParameter("userName");   //获取传递参数 用户登录名
+    	String oldPassword = request.getParameter("oldPassword");  //获取传递参数 旧密码
+    	String newPassword = request.getParameter("newPassword");   //获取传递参数 新密码
+		User user =systemService.getUserByLoginName(userName);
+		if (SystemService.validatePassword(oldPassword, user.getPassword())){
+			systemService.updatePasswordById(user.getId(), user.getLoginName(), newPassword);  //更新密码
+			status.setStatusMessage("ok");
+			status.setSuccess("true");
+		}
+		else{
+			status.setStatusMessage("旧密码错误");
+		}
+		return this.renderString(response,status);
+	}
 }
