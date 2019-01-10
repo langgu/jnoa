@@ -14,5 +14,5 @@ import com.thinkgem.jeesite.modules.oa.entity.OaTaskRecord;
  */
 @MyBatisDao
 public interface OaTaskRecordDao extends CrudDao<OaTaskRecord> {
-	
+    public int updateTsakinfo(OaTaskRecord oaTaskRecord);
 }

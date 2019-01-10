@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.oa.entity.OaTaskReply;
  */
 @MyBatisDao
 public interface OaTaskReplyDao extends CrudDao<OaTaskReply> {
-	
+
+
 }

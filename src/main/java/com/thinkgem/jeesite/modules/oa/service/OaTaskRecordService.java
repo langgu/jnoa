@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.oa.entity.OaTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,34 +29,46 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 
 	@Autowired
 	private OaTaskReplyDao oaTaskReplyDao;
-	
+
+	@Autowired
+	private OaTaskRecordDao oaTaskRecordDao;
+
+	@Autowired
+	private OaTaskService oaTaskService;
+
 	public OaTaskRecord get(String id) {
 		OaTaskRecord oaTaskRecord = super.get(id);
 		oaTaskRecord.setOaTaskReplyList(oaTaskReplyDao.findList(new OaTaskReply(oaTaskRecord)));
 		return oaTaskRecord;
 	}
-	
+
 	public List<OaTaskRecord> findList(OaTaskRecord oaTaskRecord) {
 		return super.findList(oaTaskRecord);
 	}
-	
+
 	public Page<OaTaskRecord> findPage(Page<OaTaskRecord> page, OaTaskRecord oaTaskRecord) {
 		return super.findPage(page, oaTaskRecord);
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void save(OaTaskRecord oaTaskRecord) {
-
 		/**
 		 * ctt
-		 * 在字表数据保存时，将部分主表的数据取过来进行保存
+		 * 在字表数据保存时，将部分主表的数据取过来进行保存更新
 		 * 字段包含
 		 * 发送人  ---  创建者
 		 * 任务标题---任务标题
 		 * 任务内容---任务内容
-		 *
+		 *发送时间---发送时间
 		 */
 		super.save(oaTaskRecord);
+		OaTask oaTask = oaTaskService.get(oaTaskRecord.getOaTask().getId());
+		oaTaskRecord.setTitle(oaTask.getTitle());
+		oaTaskRecord.setContent(oaTask.getContent());
+		oaTaskRecord.setSendUser(oaTask.getCreateBy());
+		oaTaskRecord.setSendDate(oaTask.getCreateDate());
+		oaTaskRecordDao.updateTsakinfo(oaTaskRecord);
+
 		for (OaTaskReply oaTaskReply : oaTaskRecord.getOaTaskReplyList()){
 			if (oaTaskReply.getId() == null){
 				continue;
@@ -74,11 +87,11 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 			}
 		}
 	}
-	
+
 	@Transactional(readOnly = false)
 	public void delete(OaTaskRecord oaTaskRecord) {
 		super.delete(oaTaskRecord);
 		oaTaskReplyDao.delete(new OaTaskReply(oaTaskRecord));
 	}
-	
+
 }

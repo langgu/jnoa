@@ -69,7 +69,7 @@
 		<if test="isSelf">
 			AND a.STATUS = '1'
 		</if>-->
-		ORDER BY a.update_date DESC
+		ORDER BY a.create_date DESC
 	</select>
 
 	<select id="findAllList" resultType="OaNotify">

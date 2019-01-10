@@ -69,7 +69,15 @@ public class UserUtils {
 		}
 		return user;
 	}
-	
+
+	public static User getuser(String id){
+		User user = userDao.get(id);
+		if (user == null){
+			return null;
+		}
+		return user;
+	}
+
 	/**
 	 * 根据登录名获取用户
 	 * @param loginName

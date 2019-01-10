@@ -14,11 +14,13 @@
 		a.reply_date AS "replyDate",
 		a.year AS "year",
 		a.month AS "month",
-		a.day AS "day"
+		a.day AS "day",
+		u11.name AS "receUser.name"
 	</sql>
 	
 	<sql id="oaTaskReplyJoins">
 		LEFT JOIN oa_task_record b ON b.id = a.oa_task_id
+		LEFT JOIN sys_user u11 ON u11.id = a.send_user_id
 	</sql>
     
 	<select id="get" resultType="OaTaskReply">

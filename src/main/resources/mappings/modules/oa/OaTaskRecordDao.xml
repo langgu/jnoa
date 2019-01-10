@@ -20,11 +20,14 @@
 		a.year AS "year",
 		a.month AS "month",
 		a.day AS "day",
-		u7.name AS "receUser.name"
+		u7.name AS "receUser.name",
+		u8.name AS "sendUser.naem"
 	</sql>
 	
 	<sql id="oaTaskRecordJoins">
 		LEFT JOIN sys_user u7 ON u7.id = a.rece_user_id
+		LEFT JOIN sys_user u8 ON u8.id = a.send_user_id
+		LEFT JOIN oa_task b ON b.id = a.oa_task_id
 	</sql>
     
 	<select id="get" resultType="OaTaskRecord">
@@ -42,9 +45,6 @@
 		<include refid="oaTaskRecordJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="id != null and id != ''">
-				AND a.id = #{id}
-			</if>
 			<if test="oaTask != null and oaTask.id != null and oaTask.id != ''">
 				AND a.oa_task_id = #{oaTask.id}
 			</if>
@@ -162,5 +162,15 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+
+	<update id="updateTsakinfo">
+		UPDATE oa_task_record SET
+			send_user_id = #{sendUser.id},
+			title = #{title},
+			content = #{content},
+			send_date = #{sendDate}
+		WHERE id = #{id}
+	</update>
+
 </mapper>

@@ -17,10 +17,12 @@
 		a.complete_flag AS "completeFlag",
 		a.year AS "year",
 		a.month AS "month",
-		a.day AS "day"
+		a.day AS "day",
+		u7.name AS "createBy.name"
 	</sql>
 	
 	<sql id="oaTaskJoins">
+		LEFT JOIN sys_user u7 ON u7.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="OaTask">
@@ -43,6 +45,9 @@
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by  = #{createBy.id}
 			</if>
 		</where>
 		<choose>

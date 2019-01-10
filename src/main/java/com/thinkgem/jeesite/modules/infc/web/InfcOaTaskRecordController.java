@@ -25,6 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +75,7 @@ public class InfcOaTaskRecordController extends BaseController {
 		User user = UserUtils.get(userId);
 		oaTaskRecord.setReceUser(user);
 		oaTaskRecord.setCompleteFlag("0");
-		List<OaTaskRecord> list = oaTaskRecordService.findList( oaTaskRecord);
+		List<OaTaskRecord> list = oaTaskRecordService.findList(oaTaskRecord);
 		ArrayList<OaTask> arrayList = new ArrayList<OaTask>();
 		//得到信息条list,然后取出每一条信息条的oa_task_id 根据id获取task对象，取出task的值
 		for (OaTaskRecord oaTaskRecord1 :list){
@@ -86,11 +88,21 @@ public class InfcOaTaskRecordController extends BaseController {
 			 Map<String, Object> alldata = Maps.newHashMap();
 			 alldata.put("id",oaTask.getId());
 			 alldata.put("title",oaTask.getTitle());
+			 //alldata.put("content",oaTask.getContent());
+			 alldata.put("senduser",UserUtils.get(oaTask.getCreateBy().getId()).getName());
+			 alldata.put("forwoadFlag",oaTask.getForwardFlag());
+			 DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+			 String reTime = format.format(oaTask.getCreateDate());
+			 alldata.put("sendDate",reTime);
 			 data.add(alldata);
 		}
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
-		status.setStatusMessage("ok");
+		if (arrayList.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
 		status.setData(data);
 		return this.renderString(response,status);
 	}
