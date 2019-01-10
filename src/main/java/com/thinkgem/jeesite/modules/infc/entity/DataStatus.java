@@ -14,6 +14,7 @@ public class DataStatus {
 
     public DataStatus(){
         this.success = "false";
+        this.statusMessage = "失败";
     }
 
     public String getSuccess() {

@@ -28,6 +28,7 @@ public class OaTaskReply extends DataEntity<OaTaskReply> {
 	private String year;		// 年
 	private String month;		// 月
 	private String day;		// 日
+	private String oaTaskRecordId;   //任务记录表id
 	
 	public OaTaskReply() {
 		super();
@@ -121,5 +122,12 @@ public class OaTaskReply extends DataEntity<OaTaskReply> {
 	public void setDay(String day) {
 		this.day = day;
 	}
-	
+
+	public String getOaTaskRecordId() {
+		return oaTaskRecordId;
+	}
+
+	public void setOaTaskRecordId(String oaTaskRecordId) {
+		this.oaTaskRecordId = oaTaskRecordId;
+	}
 }
