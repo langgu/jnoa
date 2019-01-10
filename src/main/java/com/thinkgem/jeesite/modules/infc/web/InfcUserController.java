@@ -93,6 +93,7 @@ public class InfcUserController extends BaseController {
         for(Office office: list){
             Map<String,Object> map = Maps.newHashMap();
             map.put("id", office.getId());
+            map.put("userId",office.getId());
             map.put("pId", office.getParentId());
             map.put("name", office.getName());
             map.put("type", "部门");
@@ -101,6 +102,7 @@ public class InfcUserController extends BaseController {
             for (User user : userList){
                 Map<String, Object> map2 = Maps.newHashMap();
                 map2.put("id", IdGen.uuid());
+                map2.put("userId",user.getId());
                 map2.put("pId", office.getId());
                 map2.put("name",user.getName());
                 map2.put("type", "人员");
