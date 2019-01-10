@@ -38,10 +38,8 @@
 			<tr>
 				<th>任务标题</th>
 				<th>任务内容</th>
-				<th>发布人</th>
-				<th>发布时间</th>
-				<th>是否是转发</th>
-				<th>任务完成标记</th>
+				<th>是否是转发，0：否，1，是</th>
+				<th>任务完成标记，&lsquo;0&rsquo;，未完成，&lsquo;1&rsquo;完成</th>
 				<shiro:hasPermission name="oa:oaTask:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -53,12 +51,6 @@
 				</a></td>
 				<td>
 					${oaTask.content}
-				</td>
-				<td>
-					${oaTask.createBy.id}
-				</td>
-				<td>
-					<fmt:formatDate value="${oaTask.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${oaTask.forwardFlag}

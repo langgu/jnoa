@@ -4,23 +4,27 @@
     
 	<sql id="oaTaskRecordColumns">
 		a.id AS "id",
-		a.oa_task_id AS "oaTaskId",
+		a.oa_task_id AS "oaTask.id",
 		a.title AS "title",
 		a.content AS "content",
 		a.files AS "files",
-		a.send_user_id AS "sendUserId",
-		a.rece_user_id AS "receUserId",
+		a.send_user_id AS "sendUser.id",
+		a.rece_user_id AS "receUser.id",
 		a.send_date AS "sendDate",
 		a.read_flag AS "readFlag",
 		a.read_date AS "readDate",
 		a.forward_flag AS "forwardFlag",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.complete_flag AS "completeFlag"
+		a.complete_flag AS "completeFlag",
+		a.year AS "year",
+		a.month AS "month",
+		a.day AS "day",
+		u7.name AS "receUser.name"
 	</sql>
 	
 	<sql id="oaTaskRecordJoins">
-		LEFT JOIN oa_task b ON b.id = a.oa_task_id
+		LEFT JOIN sys_user u7 ON u7.id = a.rece_user_id
 	</sql>
     
 	<select id="get" resultType="OaTaskRecord">
@@ -38,14 +42,41 @@
 		<include refid="oaTaskRecordJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="oaTaskId != null and oaTaskId != ''">
-				AND a.oa_task_id = #{oaTaskId}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="oaTask != null and oaTask.id != null and oaTask.id != ''">
+				AND a.oa_task_id = #{oaTask.id}
 			</if>
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			<if test="sendUser != null and sendUser.id != null and sendUser.id != ''">
+				AND a.send_user_id = #{sendUser.id}
+			</if>
+			<if test="receUser != null and receUser.id != null and receUser.id != ''">
+				AND a.rece_user_id = #{receUser.id}
+			</if>
+			<if test="readFlag != null and readFlag != ''">
+				AND a.read_flag = #{readFlag}
+			</if>
+			<if test="forwardFlag != null and forwardFlag != ''">
+				AND a.forward_flag = #{forwardFlag}
+			</if>
+			<if test="completeFlag != null and completeFlag != ''">
+				AND a.complete_flag = #{completeFlag}
+			</if>
+			<if test="year != null and year != ''">
+				AND a.year = #{year}
+			</if>
+			<if test="month != null and month != ''">
+				AND a.month = #{month}
+			</if>
+			<if test="day != null and day != ''">
+				AND a.day = #{day}
 			</if>
 		</where>
 		<choose>
@@ -89,53 +120,47 @@
 			forward_flag,
 			remarks,
 			del_flag,
-			complete_flag
+			complete_flag,
+			year,
+			month,
+			day
 		) VALUES (
 			#{id},
-			#{oaTaskId},
+			#{oaTask.id},
 			#{title},
 			#{content},
 			#{files},
-			#{sendUserId},
-			#{receUserId},
+			#{sendUser.id},
+			#{receUser.id},
 			#{sendDate},
 			#{readFlag},
 			#{readDate},
 			#{forwardFlag},
 			#{remarks},
 			#{delFlag},
-			#{completeFlag}
+			#{completeFlag},
+			#{year},
+			#{month},
+			#{day}
 		)
 	</insert>
 	
 	<update id="update">
 		UPDATE oa_task_record SET 	
-			oa_task_id = #{oaTaskId},
-			title = #{title},
-			content = #{content},
 			files = #{files},
-			send_user_id = #{sendUserId},
-			rece_user_id = #{receUserId},
-			send_date = #{sendDate},
-			read_flag = #{readFlag},
-			read_date = #{readDate},
-			forward_flag = #{forwardFlag},
+			rece_user_id = #{receUser.id},
 			remarks = #{remarks},
-			complete_flag = #{completeFlag}
+			complete_flag = #{completeFlag},
+			year = #{year},
+			month = #{month},
+			day = #{day}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
 		UPDATE oa_task_record SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		<choose>
-			<when test="id !=null and id != ''">
-				WHERE id = #{id}
-			</when>
-			<otherwise>
-				WHERE oa_task_id = #{oaTaskId}
-			</otherwise>
-		</choose>
+		WHERE id = #{id}
 	</update>
 	
 </mapper>

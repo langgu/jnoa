@@ -15,7 +15,7 @@
 		a.UPDATE_DATE AS "updateDate",
 		a.REMARKS AS "remarks",
 		a.DEL_FLAG AS "delFlag",
-		a.urgent_flag as "urgentFlag",
+		a.urgent_flag AS "urgentFlag",
 	    b.read_num,
 	    b.un_read_num
 	</sql>

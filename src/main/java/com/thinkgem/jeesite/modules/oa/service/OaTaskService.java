@@ -19,8 +19,8 @@ import com.thinkgem.jeesite.modules.oa.dao.OaTaskRecordDao;
 
 /**
  * 任务信息Service
- * @author wfp
- * @version 2019-01-09
+ * @author ctt
+ * @version 2019-01-10
  */
 @Service
 @Transactional(readOnly = true)
@@ -52,7 +52,7 @@ public class OaTaskService extends CrudService<OaTaskDao, OaTask> {
 			}
 			if (OaTaskRecord.DEL_FLAG_NORMAL.equals(oaTaskRecord.getDelFlag())){
 				if (StringUtils.isBlank(oaTaskRecord.getId())){
-					oaTaskRecord.setOaTaskId(oaTask);
+					oaTaskRecord.setOaTask(oaTask);
 					oaTaskRecord.preInsert();
 					oaTaskRecordDao.insert(oaTaskRecord);
 				}else{

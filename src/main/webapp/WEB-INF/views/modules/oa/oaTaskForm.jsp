@@ -83,7 +83,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">是否是转发：</label>
+			<label class="control-label">是否是转发，0：否，1，是：</label>
 			<div class="controls">
 				<form:input path="forwardFlag" htmlEscape="false" maxlength="1" class="input-xlarge "/>
 			</div>
@@ -95,9 +95,27 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">任务完成标记：</label>
+			<label class="control-label">任务完成标记，&lsquo;0&rsquo;，未完成，&lsquo;1&rsquo;完成：</label>
 			<div class="controls">
 				<form:input path="completeFlag" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">年：</label>
+			<div class="controls">
+				<form:input path="year" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">月：</label>
+			<div class="controls">
+				<form:input path="month" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">日：</label>
+			<div class="controls">
+				<form:input path="day" htmlEscape="false" maxlength="10" class="input-xlarge "/>
 			</div>
 		</div>
 			<div class="control-group">
@@ -107,24 +125,20 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
-								<th>任务标题</th>
-								<th>任务内容</th>
 								<th>附件</th>
-								<th>发送人</th>
 								<th>接受人</th>
-								<th>发送时间</th>
-								<th>阅读标记</th>
-								<th>阅读时间</th>
-								<th>是否是转发</th>
 								<th>备注信息</th>
-								<th>任务完成标记</th>
+								<th>任务完成标记，&lsquo;0&rsquo;，未完成，&lsquo;1&rsquo;完成</th>
+								<th>年</th>
+								<th>月</th>
+								<th>日</th>
 								<shiro:hasPermission name="oa:oaTask:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
 						<tbody id="oaTaskRecordList">
 						</tbody>
 						<shiro:hasPermission name="oa:oaTask:edit"><tfoot>
-							<tr><td colspan="13"><a href="javascript:" onclick="addRow('#oaTaskRecordList', oaTaskRecordRowIdx, oaTaskRecordTpl);oaTaskRecordRowIdx = oaTaskRecordRowIdx + 1;" class="btn">新增</a></td></tr>
+							<tr><td colspan="9"><a href="javascript:" onclick="addRow('#oaTaskRecordList', oaTaskRecordRowIdx, oaTaskRecordTpl);oaTaskRecordRowIdx = oaTaskRecordRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="oaTaskRecordTpl">//<!--
@@ -134,39 +148,26 @@
 								<input id="oaTaskRecordList{{idx}}_delFlag" name="oaTaskRecordList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="oaTaskRecordList{{idx}}_title" name="oaTaskRecordList[{{idx}}].title" type="text" value="{{row.title}}" maxlength="255" class="input-small "/>
-							</td>
-							<td>
-								<textarea id="oaTaskRecordList{{idx}}_content" name="oaTaskRecordList[{{idx}}].content" rows="4" maxlength="2000" class="input-small ">{{row.content}}</textarea>
-							</td>
-							<td>
 								<input id="oaTaskRecordList{{idx}}_files" name="oaTaskRecordList[{{idx}}].files" type="text" value="{{row.files}}" maxlength="2000" class="input-small "/>
 							</td>
 							<td>
-								<input id="oaTaskRecordList{{idx}}_sendUserId" name="oaTaskRecordList[{{idx}}].sendUserId" type="text" value="{{row.sendUserId}}" maxlength="64" class="input-small "/>
-							</td>
-							<td>
-								<input id="oaTaskRecordList{{idx}}_receUserId" name="oaTaskRecordList[{{idx}}].receUserId" type="text" value="{{row.receUserId}}" maxlength="64" class="input-small "/>
-							</td>
-							<td>
-								<input id="oaTaskRecordList{{idx}}_sendDate" name="oaTaskRecordList[{{idx}}].sendDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-									value="{{row.sendDate}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-							</td>
-							<td>
-								<input id="oaTaskRecordList{{idx}}_readFlag" name="oaTaskRecordList[{{idx}}].readFlag" type="text" value="{{row.readFlag}}" maxlength="1" class="input-small "/>
-							</td>
-							<td>
-								<input id="oaTaskRecordList{{idx}}_readDate" name="oaTaskRecordList[{{idx}}].readDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-									value="{{row.readDate}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-							</td>
-							<td>
-								<input id="oaTaskRecordList{{idx}}_forwardFlag" name="oaTaskRecordList[{{idx}}].forwardFlag" type="text" value="{{row.forwardFlag}}" maxlength="1" class="input-small "/>
+								<sys:treeselect id="oaTaskRecordList{{idx}}_receUser" name="oaTaskRecordList[{{idx}}].receUser.id" value="{{row.receUser.id}}" labelName="oaTaskRecordList{{idx}}.receUser.name" labelValue="{{row.receUser.name}}"
+									title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 							</td>
 							<td>
 								<textarea id="oaTaskRecordList{{idx}}_remarks" name="oaTaskRecordList[{{idx}}].remarks" rows="4" maxlength="255" class="input-small ">{{row.remarks}}</textarea>
 							</td>
 							<td>
 								<input id="oaTaskRecordList{{idx}}_completeFlag" name="oaTaskRecordList[{{idx}}].completeFlag" type="text" value="{{row.completeFlag}}" maxlength="1" class="input-small "/>
+							</td>
+							<td>
+								<input id="oaTaskRecordList{{idx}}_year" name="oaTaskRecordList[{{idx}}].year" type="text" value="{{row.year}}" maxlength="10" class="input-small "/>
+							</td>
+							<td>
+								<input id="oaTaskRecordList{{idx}}_month" name="oaTaskRecordList[{{idx}}].month" type="text" value="{{row.month}}" maxlength="10" class="input-small "/>
+							</td>
+							<td>
+								<input id="oaTaskRecordList{{idx}}_day" name="oaTaskRecordList[{{idx}}].day" type="text" value="{{row.day}}" maxlength="10" class="input-small "/>
 							</td>
 							<shiro:hasPermission name="oa:oaTask:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#oaTaskRecordList{{idx}}')" title="删除">&times;</span>{{/delBtn}}

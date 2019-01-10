@@ -14,7 +14,10 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		a.complete_flag AS "completeFlag"
+		a.complete_flag AS "completeFlag",
+		a.year AS "year",
+		a.month AS "month",
+		a.day AS "day"
 	</sql>
 	
 	<sql id="oaTaskJoins">
@@ -83,7 +86,10 @@
 			update_date,
 			remarks,
 			del_flag,
-			complete_flag
+			complete_flag,
+			year,
+			month,
+			day
 		) VALUES (
 			#{id},
 			#{title},
@@ -96,7 +102,10 @@
 			#{updateDate},
 			#{remarks},
 			#{delFlag},
-			#{completeFlag}
+			#{completeFlag},
+			#{year},
+			#{month},
+			#{day}
 		)
 	</insert>
 	
@@ -109,7 +118,10 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			remarks = #{remarks},
-			complete_flag = #{completeFlag}
+			complete_flag = #{completeFlag},
+			year = #{year},
+			month = #{month},
+			day = #{day}
 		WHERE id = #{id}
 	</update>
 	

@@ -9,8 +9,8 @@ import com.thinkgem.jeesite.modules.oa.entity.OaTask;
 
 /**
  * 任务信息DAO接口
- * @author wfp
- * @version 2019-01-09
+ * @author ctt
+ * @version 2019-01-10
  */
 @MyBatisDao
 public interface OaTaskDao extends CrudDao<OaTask> {

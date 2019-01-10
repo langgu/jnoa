@@ -11,8 +11,8 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * 任务信息Entity
- * @author wfp
- * @version 2019-01-09
+ * @author ctt
+ * @version 2019-01-10
  */
 public class OaTask extends DataEntity<OaTask> {
 	
@@ -22,6 +22,9 @@ public class OaTask extends DataEntity<OaTask> {
 	private String files;		// 附件
 	private String forwardFlag;		// 是否是转发，0：否，1，是
 	private String completeFlag;		// 任务完成标记，&lsquo;0&rsquo;，未完成，&lsquo;1&rsquo;完成
+	private String year;		// 年
+	private String month;		// 月
+	private String day;		// 日
 	private List<OaTaskRecord> oaTaskRecordList = Lists.newArrayList();		// 子表列表
 	
 	public OaTask() {
@@ -75,6 +78,33 @@ public class OaTask extends DataEntity<OaTask> {
 
 	public void setCompleteFlag(String completeFlag) {
 		this.completeFlag = completeFlag;
+	}
+	
+	@Length(min=0, max=10, message="年长度必须介于 0 和 10 之间")
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
+	@Length(min=0, max=10, message="月长度必须介于 0 和 10 之间")
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	
+	@Length(min=0, max=10, message="日长度必须介于 0 和 10 之间")
+	public String getDay() {
+		return day;
+	}
+
+	public void setDay(String day) {
+		this.day = day;
 	}
 	
 	public List<OaTaskRecord> getOaTaskRecordList() {

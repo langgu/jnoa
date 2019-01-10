@@ -69,7 +69,7 @@ public class InfcOaNotifyController extends BaseController {
 		map.put("files", entity.getFiles());
 		map.put("urgentFlag", entity.getUrgentFlag());
 		map.put("send_user_name",UserUtils.get(entity.getCreateBy().getId()).getName());
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String reTime = format.format(entity.getCreateDate());
 		map.put("send_date",reTime);
 		//List<Map<String, Object>> listdata = Lists.newArrayList();
@@ -106,13 +106,13 @@ public class InfcOaNotifyController extends BaseController {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
 			Map<String, Object> map = Maps.newHashMap();
-			//map.put("id", oaNotify1.getId());
+			map.put("id", oaNotify1.getId());
 			map.put("title", oaNotify1.getTitle());
-			map.put("content", oaNotify1.getContent());
-			map.put("files", oaNotify1.getFiles());
+			//map.put("content", oaNotify1.getContent());
+			//map.put("files", oaNotify1.getFiles());
 			map.put("urgentFlag", oaNotify1.getUrgentFlag());
 			map.put("send_user_name",UserUtils.get(oaNotify1.getCreateBy().getId()).getName());
-			DateFormat format = new SimpleDateFormat("yyyyMMdd");
+			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaNotify1.getCreateDate());
 			map.put("send_date",reTime);
 			mapList.add(map);
@@ -138,13 +138,13 @@ public class InfcOaNotifyController extends BaseController {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		for(OaNotify oaNotify1 : oaNotifyList){
 			Map<String, Object> map = Maps.newHashMap();
-			//map.put("id", oaNotify1.getId());
+			map.put("id", oaNotify1.getId());
 			map.put("title", oaNotify1.getTitle());
 			map.put("content", oaNotify1.getContent());
 			map.put("files", oaNotify1.getFiles());
 			map.put("urgentFlag", oaNotify1.getUrgentFlag());
 			map.put("send_user_name",UserUtils.get(oaNotify1.getCreateBy().getId()).getName());
-			DateFormat format = new SimpleDateFormat("yyyyMMdd");
+			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaNotify1.getCreateDate());
 			map.put("send_date",reTime);
 			mapList.add(map);

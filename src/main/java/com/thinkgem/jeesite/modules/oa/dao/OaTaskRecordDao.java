@@ -8,9 +8,9 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaTaskRecord;
 
 /**
- * 任务信息DAO接口
- * @author wfp
- * @version 2019-01-09
+ * 人员任务回复详情DAO接口
+ * @author ctt
+ * @version 2019-01-10
  */
 @MyBatisDao
 public interface OaTaskRecordDao extends CrudDao<OaTaskRecord> {
