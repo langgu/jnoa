@@ -44,7 +44,7 @@ public class JsonMapper extends ObjectMapper {
 	private static JsonMapper mapper;
 
 	public JsonMapper() {
-		this(Include.NON_EMPTY);
+		this(Include.ALWAYS);
 	}
 
 	public JsonMapper(Include include) {
@@ -247,6 +247,7 @@ public class JsonMapper extends ObjectMapper {
 		map.put("id", 1);
 		map.put("pId", -1);
 		map.put("name", "根节点");
+		map.put("test", null);
 		list.add(map);
 		map = Maps.newHashMap();
 		map.put("id", 2);
