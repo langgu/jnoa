@@ -12,6 +12,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatusList;
 import com.thinkgem.jeesite.modules.oa.dao.OaTaskDao;
+import com.thinkgem.jeesite.modules.oa.dao.OaTaskReplyDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaTask;
 import com.thinkgem.jeesite.modules.oa.entity.OaTaskRecord;
 import com.thinkgem.jeesite.modules.oa.entity.OaTaskReply;
@@ -46,7 +47,10 @@ public class InfcOaTaskController extends BaseController {
 	private OaTaskService oaTaskService;
 
 	@Autowired
-	private OaTaskDao oaTaskDao;
+	private OaTaskRecordService oaTaskRecordService;
+
+	@Autowired
+	private OaTaskReplyDao oaTaskReplyDao;
 
 	@ModelAttribute
 	public OaTask get(@RequestParam(required=false) String id) {
@@ -81,8 +85,6 @@ public class InfcOaTaskController extends BaseController {
 			data_detail.put("id",oaTask1.getId());
 			data_detail.put("title",oaTask1.getTitle());
 			data_detail.put("CompleteFlag",oaTask1.getCompleteFlag());
-			//data_detail.put("content",oaTask1.getContent());
-			//data_detail.put("senduser",UserUtils.get(oaTask1.getCreateBy().getId()).getName());
 			data_detail.put("forwoadFlag",oaTask.getForwardFlag());
 			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaTask1.getCreateDate());
@@ -158,17 +160,22 @@ public class InfcOaTaskController extends BaseController {
 		//任务回复列表
 		List<OaTaskRecord> list = oaTask.getOaTaskRecordList();
 		List<Map<String, Object>> data = Lists.newArrayList();
-		for (OaTaskRecord oaTaskRecord :list)
+		for (int i = 0; i<list.size();i++)
 		{
+			OaTaskRecord oaTaskRecord = oaTaskRecordService.get(list.get(i).getId());
 			//得到本项目的第I位接收人的回复列表
 			List<OaTaskReply> replylist = oaTaskRecord.getOaTaskReplyList();
-			for (OaTaskReply oaTaskReply : replylist)
+			for (int j=0;j<replylist.size();j++)
 			{
+				String id2 = replylist.get(j).getId();
+				OaTaskReply oaTaskReply = oaTaskReplyDao.get(id2);
 				Map<String, Object> map1 = Maps.newHashMap();
-				map1.put("user",UserUtils.get(oaTaskReply.getCreateBy().getId()).getName());
+				String id = oaTaskReply.getReceUser();
+				User user = UserUtils.get(id);
+				map1.put("user",user.getName());
 				map1.put("content",oaTaskReply.getReplyContent());
 				map1.put("ReplyFlag",oaTaskReply.getReplyFlag());
-				String reTime2 = format.format(oaTaskReply.getCreateDate());
+				String reTime2 = format.format(oaTaskReply.getReplyDate());
 				map1.put("date",reTime2);
 				data.add(map1);
 			}
