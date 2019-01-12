@@ -137,18 +137,18 @@ public class InfcOaTaskController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "task_reply_detail",method = RequestMethod.GET)
-	public String task_reply_detail(OaTask oaTask, HttpServletRequest request, HttpServletResponse response){
+	public String task_reply_detail( HttpServletRequest request, HttpServletResponse response){
 		String oaTaskId = request.getParameter("id");
-		OaTask entity = null;
+		OaTask oaTask = null;
 		if (StringUtils.isNotBlank(oaTaskId)) {
-			entity = oaTaskService.get(oaTaskId);
+			oaTask = oaTaskService.get(oaTaskId);
 		}
-		if (entity == null) {
-			entity = new OaTask();
+		if (oaTask == null) {
+			oaTask = new OaTask();
 		}
 		Map<String, Object> map = Maps.newHashMap();
 		//任务详情
-		map.put("title", entity.getTitle());
+		map.put("title", oaTask.getTitle());
 		map.put("forwoadFlag",oaTask.getForwardFlag());
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String reTime = format.format(oaTask.getCreateDate());
@@ -168,7 +168,7 @@ public class InfcOaTaskController extends BaseController {
 				map1.put("user",UserUtils.get(oaTaskReply.getCreateBy().getId()).getName());
 				map1.put("content",oaTaskReply.getReplyContent());
 				map1.put("ReplyFlag",oaTaskReply.getReplyFlag());
-				String reTime2 = format.format(oaTask.getCreateDate());
+				String reTime2 = format.format(oaTaskReply.getCreateDate());
 				map1.put("date",reTime2);
 				data.add(map1);
 			}

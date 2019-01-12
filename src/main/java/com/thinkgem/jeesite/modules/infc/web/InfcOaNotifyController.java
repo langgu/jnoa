@@ -34,7 +34,7 @@ import java.util.Map;
 
 /**
  * 通知通告Controller
- * @author ThinkGem
+ * @author  ctt
  * @version 2014-05-16
  */
 @CrossOrigin
