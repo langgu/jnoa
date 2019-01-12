@@ -5,8 +5,8 @@
 	<sql id="oaTaskReplyColumns">
 		a.id AS "id",
 		a.oa_task_id AS "oaTask.id",
-		a.send_user_id AS "sendUser.id",
-		a.rece_user_id AS "receUser.id",
+		a.send_user_id AS "sendUser",
+		a.rece_user_id AS "receUser",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
 		a.reply_flag AS "replyFlag",
@@ -44,11 +44,11 @@
 			<if test="oaTask != null and oaTask.id != null and oaTask.id != ''">
 				AND a.oa_task_id = #{oaTask.id}
 			</if>
-			<if test="sendUser != null and sendUser.id != null and sendUser.id != ''">
-				AND a.send_user_id = #{sendUser.id}
+			<if test="sendUser != null  and sendUser != ''">
+				AND a.send_user_id = #{sendUser}
 			</if>
-			<if test="receUser != null and receUser.id != null and receUser.id != ''">
-				AND a.rece_user_id = #{receUser.id}
+			<if test="receUser != null and receUser != ''">
+				AND a.rece_user_id = #{receUser}
 			</if>
 			<if test="remarks != null and remarks != ''">
 				AND a.remarks = #{remarks}
@@ -118,8 +118,8 @@
 		) VALUES (
 			#{id},
 			#{oaTask.id},
-			#{sendUser.id},
-			#{receUser.id},
+			#{sendUser},
+			#{receUser},
 			#{remarks},
 			#{delFlag},
 			#{replyFlag},
@@ -134,8 +134,8 @@
 	<update id="update">
 		UPDATE oa_task_reply SET 	
 			oa_task_id = #{oaTask.id},
-			send_user_id = #{sendUser.id},
-			rece_user_id = #{receUser.id},
+			send_user_id = #{sendUser},
+			rece_user_id = #{receUser},
 			remarks = #{remarks},
 			reply_flag = #{replyFlag},
 			reply_content = #{replyContent},
