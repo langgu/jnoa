@@ -39,7 +39,7 @@ public class InfcAddTaskController extends BaseController {
     private OaTaskRecordService oaTaskRecordService;
 
     @RequestMapping(value = "addTask",produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
-    public String addOaNotify(@RequestBody OaTask oaTask, HttpServletRequest request, HttpServletResponse response){
+    public String addTask(@RequestBody OaTask oaTask, HttpServletRequest request, HttpServletResponse response){
         DataStatus status = new DataStatus();
         String title = oaTask.getTitle();    //标题
         String content = oaTask.getContent();   //内容
