@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatusList;
+import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -51,6 +52,9 @@ public class InfcUserController extends BaseController {
 
 	@Autowired
 	private OfficeService officeService;
+
+	@Autowired
+	private UserDao userDao;
 
 	/**
 	* @Description:    用户个人信息接口
@@ -135,6 +139,67 @@ public class InfcUserController extends BaseController {
 		else{
 			status.setStatusMessage("旧密码错误");
 		}
+		return this.renderString(response,status);
+	}
+
+
+
+	/**
+	 * @Description:    根据部门id获取本部门的人员信息列表
+	 * @Author:         ctt
+	 * @CreateDate:     2019/1/12 11:52
+	 */
+	@RequestMapping(value = "getUserByOffice",method = RequestMethod.GET)
+	public String getUserInfoByOfficeId(User user,HttpServletRequest request, HttpServletResponse response){
+		String officeId = request.getParameter("id");
+		Office office = officeService.get(officeId);
+		user.setOffice(office);
+		List<User> list = userDao.findUserByOfficeId(user);
+		DataStatusList status = new DataStatusList();
+		if (list.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
+		status.setSuccess("true");
+		List<Map<String, Object>> data = Lists.newArrayList();
+		for (User user1:list){
+			Map<String, Object> userinfo = Maps.newHashMap();
+			userinfo.put("id",user1.getId());
+			userinfo.put("name",user1.getName());
+			data.add(userinfo);
+		}
+		status.setData(data);
+		return this.renderString(response,status);
+
+	}
+
+
+	/**
+	 * @Description:    获取全公司的部长人员列表
+	 * @Author:         ctt
+	 * @CreateDate:     2019/1/12 12：08
+	 */
+
+	@RequestMapping(value = "getOfficer",method = RequestMethod.GET)
+	public String getOfficer(User user,HttpServletRequest request, HttpServletResponse response){
+		user.setPosition("部长");
+		List<User> list = userDao.findList(user);
+		List<Map<String, Object>> data = Lists.newArrayList();
+		for (User user1:list){
+			Map<String, Object> userinfo = Maps.newHashMap();
+			userinfo.put("id",user1.getId());
+			userinfo.put("name",user1.getName());
+			data.add(userinfo);
+		}
+		DataStatusList status = new DataStatusList();
+		if (list.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
+		status.setSuccess("true");
+		status.setData(data);
 		return this.renderString(response,status);
 	}
 }
