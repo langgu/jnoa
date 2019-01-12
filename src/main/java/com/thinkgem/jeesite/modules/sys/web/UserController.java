@@ -97,6 +97,7 @@ public class UserController extends BaseController {
 		model.addAttribute("user", user);
 		model.addAttribute("allRoles", systemService.findAllRole());
 		return this.renderString(response,user);
+//		return "modules/sys/userForm";
 	}
 
 	@RequiresPermissions("sys:user:edit")
