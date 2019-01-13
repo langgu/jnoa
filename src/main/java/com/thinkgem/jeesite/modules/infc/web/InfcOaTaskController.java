@@ -73,7 +73,7 @@ public class InfcOaTaskController extends BaseController {
 	@RequestMapping(value = "task_own_list",method = RequestMethod.GET)
 	public String ownlist(OaTask oaTask, HttpServletRequest request, HttpServletResponse response){
 		//手机端传送userid
-		String userId = request.getParameter("userid");
+		String userId = request.getParameter("userId");
 		User user = UserUtils.get(userId);
 		//获取创建者为当前id的通知通告列表
 		oaTask.setCreateBy(user);
@@ -103,34 +103,52 @@ public class InfcOaTaskController extends BaseController {
 
 	}
 
-   /**
-    * 查询代办任务详情
-    */
-	@ResponseBody
-	@RequestMapping(value = "task_record_detail",method = RequestMethod.GET)
-	public String task_detail(OaTask oaTask, HttpServletRequest request, HttpServletResponse response) {
-		String oaTaskId = request.getParameter("id");
-		OaTask entity = null;
-		if (StringUtils.isNotBlank(oaTaskId)) {
-			entity = oaTaskService.get(oaTaskId);
-		}
-		if (entity == null) {
-			entity = new OaTask();
-		}
 
-		Map<String, Object> map = Maps.newHashMap();
-		map.put("title", entity.getTitle());
-		map.put("content", entity.getContent());
-		map.put("senduser",UserUtils.get(entity.getCreateBy().getId()).getName());
-		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
-		String reTime = format.format(oaTask.getCreateDate());
-		map.put("sendDate",reTime);
-		map.put("forwoadFlag",oaTask.getForwardFlag());
-		map.put("file",oaTask.getFiles());
+   /**
+   * @Description:    查询待办/已办任务详情及回复列表
+   * @Author:         wfp
+   * @CreateDate:     2019/1/13 22:24
+   */
+	@RequestMapping(value = "task_record_detail",method = RequestMethod.GET)
+	public String task_detail(HttpServletRequest request, HttpServletResponse response) {
+		String recordId = request.getParameter("recordId");
+		OaTaskRecord oaTaskRecord = oaTaskRecordService.get(recordId);
 		DataStatus dataStatus = new DataStatus();
-		dataStatus.setSuccess("true");
-		dataStatus.setStatusMessage("ok");
-		dataStatus.setData(map);
+		if(oaTaskRecord == null){
+			dataStatus.setStatusMessage("无法获取该任务详情！");
+		} else{
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("recordId", oaTaskRecord.getId());
+			map.put("title", oaTaskRecord.getTitle());
+			map.put("content", oaTaskRecord.getContent());
+			map.put("sendUser",oaTaskRecord.getSendUser().getName());
+			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+			String reTime = format.format(oaTaskRecord.getSendDate());
+			map.put("sendDate",reTime);
+			map.put("forwoadFlag",oaTaskRecord.getForwardFlag());
+			map.put("files",oaTaskRecord.getFiles());
+
+			//该任务的个人回复列表
+			List<Map<String, Object>> data = Lists.newArrayList();
+			List<OaTaskReply> replyList = oaTaskRecord.getOaTaskReplyList();
+			for(int i=0;i<replyList.size(); i++){
+				OaTaskReply reply =replyList.get(i);
+				Map<String, Object> map2 = Maps.newHashMap();
+				map2.put("receUser",UserUtils.get(reply.getReceUser()).getName());
+				map2.put("replyContent",reply.getReplyContent());
+				map2.put("replyDate",format.format(reply.getReplyDate()));
+				map2.put("replyFlag",reply.getReplyFlag());
+				data.add(map2);
+			}
+			map.put("replyList",data);
+			dataStatus.setSuccess("true");
+			dataStatus.setData(map);
+			if(data.size()>0){
+				dataStatus.setStatusMessage("ok");
+			} else{
+				dataStatus.setStatusMessage("暂无回复数据");
+			}
+		}
 		return this.renderString(response,dataStatus);
 	}
 
@@ -140,7 +158,7 @@ public class InfcOaTaskController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "task_reply_detail",method = RequestMethod.GET)
 	public String task_reply_detail( HttpServletRequest request, HttpServletResponse response){
-		String oaTaskId = request.getParameter("id");
+		String oaTaskId = request.getParameter("taskId");
 		OaTask oaTask = null;
 		if (StringUtils.isNotBlank(oaTaskId)) {
 			oaTask = oaTaskService.get(oaTaskId);
@@ -157,12 +175,19 @@ public class InfcOaTaskController extends BaseController {
 		map.put("sendDate",reTime);
 		map.put("id",oaTask.getId());
 
+		String receNames = "";
 		//任务回复列表
 		List<OaTaskRecord> list = oaTask.getOaTaskRecordList();
 		List<Map<String, Object>> data = Lists.newArrayList();
 		for (int i = 0; i<list.size();i++)
 		{
 			OaTaskRecord oaTaskRecord = oaTaskRecordService.get(list.get(i).getId());
+			if(i==list.size()-1){
+				receNames += oaTaskRecord.getReceUser().getName();
+			}
+			else{
+				receNames += oaTaskRecord.getReceUser().getName()+",";
+			}
 			//得到本项目的第I位接收人的回复列表
 			List<OaTaskReply> replylist = oaTaskRecord.getOaTaskReplyList();
 			for (int j=0;j<replylist.size();j++)
@@ -181,6 +206,7 @@ public class InfcOaTaskController extends BaseController {
 			}
 
 		}
+		map.put("receNames",receNames);
 		map.put("reply_list",data);
 		DataStatus dataStatusList = new DataStatus();
 		dataStatusList.setSuccess("true");

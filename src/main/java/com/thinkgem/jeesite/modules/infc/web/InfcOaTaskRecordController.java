@@ -71,7 +71,7 @@ public class InfcOaTaskRecordController extends BaseController {
 	public String list(OaTaskRecord oaTaskRecord, HttpServletRequest request, HttpServletResponse response) {
 		//手机端传送userid
 		//然后根据userId和完成标记查询出本用户对应的任务信息列表
-		String userId = request.getParameter("userid");
+		String userId = request.getParameter("userId");
 		String flag = request.getParameter("completeFlag");
 		User user = UserUtils.get(userId);
 		oaTaskRecord.setReceUser(user);

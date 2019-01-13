@@ -55,7 +55,7 @@ public class InfcOaNotifyController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "oanotify_detail",method = RequestMethod.GET)
 	public String get(HttpServletRequest request, HttpServletResponse response) {
-		String oanotifyId = request.getParameter("id");
+		String oanotifyId = request.getParameter("notifyId");
 		OaNotify entity = null;
 		if (StringUtils.isNotBlank(oanotifyId)){
 			entity = oaNotifyService.get(oanotifyId);
@@ -96,9 +96,9 @@ public class InfcOaNotifyController extends BaseController {
 	/**
 	 * 我发布的通知通告列表
 	 */
-	@RequestMapping(value = "oanotify_flist",method = RequestMethod.GET)
+	@RequestMapping(value = "oanotify_send_list",method = RequestMethod.GET)
 	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
-		String userid = request.getParameter("id");//当前用户
+		String userid = request.getParameter("userId");//当前用户
 		User user = UserUtils.get(userid);
 		oaNotify.setCreateBy(user);
 		List<OaNotify> oaNotifyList = oaNotifyDao.findList(oaNotify);
@@ -134,7 +134,7 @@ public class InfcOaNotifyController extends BaseController {
 	@RequestMapping(value = "selfList",method = RequestMethod.GET)
 	public String selfList(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response) {
 		//手机端传来当前用户的id  create_by，然后查询出本用户接收到的通知通告
-		String userid = request.getParameter("userid");
+		String userid = request.getParameter("userId");
 		User user = UserUtils.get(userid);
 		oaNotify.setCurrentUser(user);
 		oaNotify.setSelf(true);//查询出我接收到的信息

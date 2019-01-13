@@ -39,7 +39,9 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 
 	public OaTaskRecord get(String id) {
 		OaTaskRecord oaTaskRecord = super.get(id);
-		oaTaskRecord.setOaTaskReplyList(oaTaskReplyDao.findList(new OaTaskReply(oaTaskRecord)));
+		if(oaTaskRecord != null){
+			oaTaskRecord.setOaTaskReplyList(oaTaskReplyDao.findList(new OaTaskReply(oaTaskRecord)));
+		}
 		return oaTaskRecord;
 	}
 
