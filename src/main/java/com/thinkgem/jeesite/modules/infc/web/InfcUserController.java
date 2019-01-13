@@ -151,7 +151,7 @@ public class InfcUserController extends BaseController {
 	 */
 	@RequestMapping(value = "getUserByOffice",method = RequestMethod.GET)
 	public String getUserInfoByOfficeId(User user,HttpServletRequest request, HttpServletResponse response){
-		String officeId = request.getParameter("id");
+		String officeId = request.getParameter("officeId");
 		Office office = officeService.get(officeId);
 		user.setOffice(office);
 		List<User> list = userDao.findUserByOfficeId(user);

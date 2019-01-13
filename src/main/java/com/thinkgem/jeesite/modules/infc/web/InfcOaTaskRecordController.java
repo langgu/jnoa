@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value = "${adminPath}/infc/infcoaTaskRecord")
+@RequestMapping(value = "${adminPath}/infc/infcOaTaskRecord")
 public class InfcOaTaskRecordController extends BaseController {
 
 	@Autowired
@@ -60,7 +60,7 @@ public class InfcOaTaskRecordController extends BaseController {
 	}
 
 	/**
-	 * 查询我的待办任务
+	 * 查询我的待办/已办任务
 	 * @param oaTaskRecord
 	 * @param request
 	 * @param response

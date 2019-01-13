@@ -40,7 +40,7 @@ import java.util.Map;
  * @version 2019-01-10
  */
 @Controller
-@RequestMapping(value = "${adminPath}/infc/infcoaTask")
+@RequestMapping(value = "${adminPath}/infc/infcOaTask")
 public class InfcOaTaskController extends BaseController {
 
 	@Autowired

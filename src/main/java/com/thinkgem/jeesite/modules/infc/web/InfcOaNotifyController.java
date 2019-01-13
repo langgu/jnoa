@@ -39,7 +39,7 @@ import java.util.Map;
  */
 @CrossOrigin
 @Controller
-@RequestMapping(value = "${adminPath}/infc/infcoaNotify")
+@RequestMapping(value = "${adminPath}/infc/infcOaNotify")
 public class InfcOaNotifyController extends BaseController {
 
 	@Autowired
