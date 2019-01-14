@@ -53,7 +53,7 @@ public class InfcOaNotifyController extends BaseController {
 	 * 通告详情
 	 */
 	@ResponseBody
-	@RequestMapping(value = "oanotify_detail",method = RequestMethod.GET)
+	@RequestMapping(value = "notifyDetails",method = RequestMethod.GET)
 	public String get(HttpServletRequest request, HttpServletResponse response) {
 		String oanotifyId = request.getParameter("notifyId");
 		OaNotify entity = null;
@@ -96,7 +96,7 @@ public class InfcOaNotifyController extends BaseController {
 	/**
 	 * 我发布的通知通告列表
 	 */
-	@RequestMapping(value = "oanotify_send_list",method = RequestMethod.GET)
+	@RequestMapping(value = "publishNotifyList",method = RequestMethod.GET)
 	public String list(OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String userid = request.getParameter("userId");//当前用户
 		User user = UserUtils.get(userid);

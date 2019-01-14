@@ -70,7 +70,7 @@ public class InfcOaTaskController extends BaseController {
 	 * 查询当前用户已发布的任务
 	 */
 	@ResponseBody
-	@RequestMapping(value = "task_own_list",method = RequestMethod.GET)
+	@RequestMapping(value = "publishTaskList",method = RequestMethod.GET)
 	public String ownlist(OaTask oaTask, HttpServletRequest request, HttpServletResponse response){
 		//手机端传送userid
 		String userId = request.getParameter("userId");
@@ -85,7 +85,7 @@ public class InfcOaTaskController extends BaseController {
 			data_detail.put("id",oaTask1.getId());
 			data_detail.put("title",oaTask1.getTitle());
 			data_detail.put("CompleteFlag",oaTask1.getCompleteFlag());
-			data_detail.put("forwoadFlag",oaTask.getForwardFlag());
+			data_detail.put("forwoadFlag",oaTask1.getForwardFlag());
 			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaTask1.getCreateDate());
 			data_detail.put("sendDate",reTime);
@@ -109,7 +109,7 @@ public class InfcOaTaskController extends BaseController {
    * @Author:         wfp
    * @CreateDate:     2019/1/13 22:24
    */
-	@RequestMapping(value = "task_record_detail",method = RequestMethod.GET)
+	@RequestMapping(value = "tbdTaskDetails",method = RequestMethod.GET)
 	public String task_detail(HttpServletRequest request, HttpServletResponse response) {
 		String recordId = request.getParameter("recordId");
 		OaTaskRecord oaTaskRecord = oaTaskRecordService.get(recordId);
@@ -156,7 +156,7 @@ public class InfcOaTaskController extends BaseController {
 	 * 查询任务详情以及回复列表
 	 */
 	@ResponseBody
-	@RequestMapping(value = "task_reply_detail",method = RequestMethod.GET)
+	@RequestMapping(value = "publishTaskDetails",method = RequestMethod.GET)
 	public String task_reply_detail( HttpServletRequest request, HttpServletResponse response){
 		String oaTaskId = request.getParameter("taskId");
 		OaTask oaTask = null;
@@ -218,6 +218,4 @@ public class InfcOaTaskController extends BaseController {
 		dataStatusList.setData(map);
 		return this.renderString(response,dataStatusList);
 	}
-
-
 }

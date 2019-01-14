@@ -61,45 +61,36 @@ public class InfcOaTaskRecordController extends BaseController {
 
 	/**
 	 * 查询我的待办/已办任务
-	 * @param oaTaskRecord
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "user_task_list",method = RequestMethod.GET)
-	public String list(OaTaskRecord oaTaskRecord, HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "tbdTaskList",method = RequestMethod.GET)
+	public String list(HttpServletRequest request, HttpServletResponse response) {
 		//手机端传送userid
 		//然后根据userId和完成标记查询出本用户对应的任务信息列表
 		String userId = request.getParameter("userId");
 		String flag = request.getParameter("completeFlag");
+		OaTaskRecord oaTaskRecord = new OaTaskRecord();
 		User user = UserUtils.get(userId);
 		oaTaskRecord.setReceUser(user);
 		oaTaskRecord.setCompleteFlag(flag);
-		List<OaTaskRecord> list = oaTaskRecordService.findList(oaTaskRecord);
-		ArrayList<OaTask> arrayList = new ArrayList<OaTask>();
-		//得到信息条list,然后取出每一条信息条的oa_task_id 根据id获取task对象，取出task的值
-		for (OaTaskRecord oaTaskRecord1 :list){
-			String  taskid = oaTaskRecord1.getOaTask().getId();
-			OaTask oaTask = oaTaskService.get(taskid);
-			arrayList.add(oaTask);
-		}
+		List<OaTaskRecord> recordList = oaTaskRecordService.findList(oaTaskRecord);
+		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		List<Map<String, Object>> data = Lists.newArrayList();
-		for (OaTask oaTask :arrayList){
-			 Map<String, Object> alldata = Maps.newHashMap();
-			 alldata.put("id",oaTask.getId());
-			 alldata.put("title",oaTask.getTitle());
-			 //alldata.put("content",oaTask.getContent());
-			 alldata.put("senduser",UserUtils.get(oaTask.getCreateBy().getId()).getName());
-			 alldata.put("forwoadFlag",oaTask.getForwardFlag());
-			 DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
-			 String reTime = format.format(oaTask.getCreateDate());
-			 alldata.put("sendDate",reTime);
-			 data.add(alldata);
+		for(OaTaskRecord oaTaskRecord2: recordList){
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("recordId",oaTaskRecord2.getId());
+			map.put("title",oaTaskRecord2.getTitle());
+			map.put("sendUser",oaTaskRecord2.getSendUser().getName());
+			map.put("forwardFlag",oaTaskRecord2.getForwardFlag());
+			map.put("sendDate",format.format(oaTaskRecord2.getSendDate()));
+			data.add(map);
 		}
 		DataStatusList status = new DataStatusList();
 		status.setSuccess("true");
-		if (arrayList.size()>0){
+		if (recordList.size()>0){
 			status.setStatusMessage("ok");
 		}else {
 			status.setStatusMessage("暂无数据");
@@ -107,6 +98,4 @@ public class InfcOaTaskRecordController extends BaseController {
 		status.setData(data);
 		return this.renderString(response,status);
 	}
-
-
 }

@@ -21,7 +21,7 @@
 		a.month AS "month",
 		a.day AS "day",
 		u7.name AS "receUser.name",
-		u8.name AS "sendUser.naem"
+		u8.name AS "sendUser.name"
 	</sql>
 	
 	<sql id="oaTaskRecordJoins">
