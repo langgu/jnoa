@@ -152,8 +152,8 @@ public class InfcOaNotifyController extends BaseController {
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", oaNotify1.getId());
 			map.put("title", oaNotify1.getTitle());
-			map.put("content", oaNotify1.getContent());
-			map.put("files", oaNotify1.getFiles());
+//			map.put("content", oaNotify1.getContent());
+//			map.put("files", oaNotify1.getFiles());
 			map.put("urgentFlag", oaNotify1.getUrgentFlag());
 			map.put("send_user_name",UserUtils.get(oaNotify1.getCreateBy().getId()).getName());
 			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");

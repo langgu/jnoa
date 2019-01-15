@@ -85,7 +85,7 @@ public class InfcOaTaskController extends BaseController {
 			data_detail.put("id",oaTask1.getId());
 			data_detail.put("title",oaTask1.getTitle());
 			data_detail.put("CompleteFlag",oaTask1.getCompleteFlag());
-			data_detail.put("forwoadFlag",oaTask1.getForwardFlag());
+			data_detail.put("forwardFlag",oaTask1.getForwardFlag());
 			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaTask1.getCreateDate());
 			data_detail.put("sendDate",reTime);
@@ -125,7 +125,7 @@ public class InfcOaTaskController extends BaseController {
 			DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 			String reTime = format.format(oaTaskRecord.getSendDate());
 			map.put("sendDate",reTime);
-			map.put("forwoadFlag",oaTaskRecord.getForwardFlag());
+			map.put("forwardFlag",oaTaskRecord.getForwardFlag());
 			map.put("files",oaTaskRecord.getFiles());
 
 			//该任务的个人回复列表
@@ -169,7 +169,7 @@ public class InfcOaTaskController extends BaseController {
 		Map<String, Object> map = Maps.newHashMap();
 		//任务详情
 		map.put("title", oaTask.getTitle());
-		map.put("forwoadFlag",oaTask.getForwardFlag());
+		map.put("forwardFlag",oaTask.getForwardFlag());
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String reTime = format.format(oaTask.getCreateDate());
 		map.put("sendDate",reTime);
@@ -207,7 +207,7 @@ public class InfcOaTaskController extends BaseController {
 
 		}
 		map.put("receNames",receNames);
-		map.put("reply_list",data);
+		map.put("replyList",data);
 		DataStatus dataStatusList = new DataStatus();
 		dataStatusList.setSuccess("true");
 		if (data.size()>0){
