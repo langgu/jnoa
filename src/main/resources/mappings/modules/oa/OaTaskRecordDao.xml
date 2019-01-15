@@ -67,7 +67,11 @@
 				AND a.forward_flag = #{forwardFlag}
 			</if>
 			<if test="completeFlag != null and completeFlag != ''">
-				AND a.complete_flag = #{completeFlag}
+				AND(a.complete_flag = #{completeFlag}
+				<if test="completeFlag == '1'">
+					OR a.complete_flag = #{DEL_FLAG_AUDIT}
+				</if>
+				)
 			</if>
 			<if test="year != null and year != ''">
 				AND a.year = #{year}
@@ -155,6 +159,14 @@
 			year = #{year},
 			month = #{month},
 			day = #{day}
+		WHERE id = #{id}
+	</update>
+
+
+	<!--更新任务状态-->
+	<update id="updateFlag">
+		UPDATE oa_task_record SET
+			complete_flag = #{completeFlag}
 		WHERE id = #{id}
 	</update>
 	

@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.oa.dao.OaTaskDao;
 import com.thinkgem.jeesite.modules.oa.entity.OaTask;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 	private OaTaskRecordDao oaTaskRecordDao;
 
 	@Autowired
-	private OaTaskService oaTaskService;
+	private OaTaskDao oaTaskDao;
 
 	public OaTaskRecord get(String id) {
 		OaTaskRecord oaTaskRecord = super.get(id);
@@ -45,7 +46,7 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 		return oaTaskRecord;
 	}
 
-	public List<OaTaskRecord> findList(OaTaskRecord oaTaskRecord) {
+	public List<OaTaskRecord>  findList(OaTaskRecord oaTaskRecord) {
 		return super.findList(oaTaskRecord);
 	}
 
@@ -99,5 +100,27 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 	public void saveByInfcReply(OaTaskReply oaTaskReply) {
 		oaTaskReply.setId(IdGen.uuid());
 		oaTaskReplyDao.insert(oaTaskReply);
+		OaTaskRecord oaTaskRecord = oaTaskReply.getOaTask();
+		String replyFlag = oaTaskReply.getReplyFlag();
+		if(replyFlag.equals("1")|| replyFlag.equals("2")){   //“1”：完成， “2”，无法完成
+			oaTaskRecord.setCompleteFlag(replyFlag);
+			oaTaskRecordDao.updateFlag(oaTaskRecord);
+			OaTask oaTask = oaTaskRecord.getOaTask();
+			List<OaTaskRecord> recordList = oaTaskRecordDao.findList(new OaTaskRecord(oaTask));
+			int finishFlag = 0;
+			int cannotFlag= 0;
+			for(OaTaskRecord oaTaskRecord2: recordList){
+				if(oaTaskRecord2.getCompleteFlag().equals("1")){
+					finishFlag ++;
+				}
+				if(oaTaskRecord2.getCompleteFlag().equals("2")){
+					cannotFlag ++;
+				}
+			}
+			if(finishFlag == recordList.size()|| cannotFlag == recordList.size()){  //如果全部为完成或无法完成，则更新发布任务的状态
+				oaTask.setCompleteFlag(replyFlag);
+				oaTaskDao.updateFlag(oaTask);
+			}
+		}
 	}
 }

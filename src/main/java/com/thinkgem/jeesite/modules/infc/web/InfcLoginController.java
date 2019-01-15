@@ -21,9 +21,11 @@ import java.io.PrintWriter;
 * @Author:         wfp
 * @CreateDate:     2019/1/8 18:14
 */
+//@CrossOrigin是用来处理跨域请求的注解
+//跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的
 @CrossOrigin
 @Controller
-@RequestMapping(value = "${adminPath}/infc/infclogin")
+@RequestMapping(value = "${adminPath}/infc/infclogin")   //请求映射地址
 public class InfcLoginController extends BaseController {
 
     @Autowired
@@ -33,7 +35,6 @@ public class InfcLoginController extends BaseController {
     @RequestMapping(value = "userLogin",method = RequestMethod.GET)
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         DataStatus status = new DataStatus();
-        status.setSuccess("false");
         String userName = request.getParameter("userName");  //获取传递参数 username
         String password = request.getParameter("password");  //获取传递参数 password
         User user = systemService.getUserByLoginName(userName);  //先验证用户是否存在

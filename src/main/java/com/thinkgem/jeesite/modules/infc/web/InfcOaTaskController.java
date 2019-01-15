@@ -209,6 +209,8 @@ public class InfcOaTaskController extends BaseController {
 		Map<String, Object> map = Maps.newHashMap();
 		//任务详情
 		map.put("title", oaTask.getTitle());
+		map.put("content", oaTask.getContent());
+		map.put("files", oaTask.getFiles());
 		map.put("forwardFlag",oaTask.getForwardFlag());
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String reTime = format.format(oaTask.getCreateDate());

@@ -15,4 +15,11 @@ import com.thinkgem.jeesite.modules.oa.entity.OaTaskRecord;
 @MyBatisDao
 public interface OaTaskRecordDao extends CrudDao<OaTaskRecord> {
     public int updateTsakinfo(OaTaskRecord oaTaskRecord);
+
+    /**
+    * @Description:    更新完成标记
+    * @Author:         wfp
+    * @CreateDate:     2019/1/15 13:16
+    */
+    public int updateFlag(OaTaskRecord oaTaskRecord);
 }

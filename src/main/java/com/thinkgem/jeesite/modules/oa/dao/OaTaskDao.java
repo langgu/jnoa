@@ -14,5 +14,7 @@ import com.thinkgem.jeesite.modules.oa.entity.OaTask;
  */
 @MyBatisDao
 public interface OaTaskDao extends CrudDao<OaTask> {
-	
+
+//    更新标记
+    public int  updateFlag(OaTask oaTask);
 }

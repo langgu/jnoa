@@ -34,6 +34,9 @@ public class InfcAddOaNotifyController extends BaseController {
     @Autowired
     private OaNotifyService oaNotifyService;
 
+    //请求方法为post,返回数据为json格式
+   // produces属性可以设置返回数据的类型以及编码
+    //@RequestBody   请求对象实体类 通过@requestBody可以将请求体中的JSON字符串绑定到相应的bean上
     @RequestMapping(value = "addOaNotify",produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
     public String addOaNotify(@RequestBody OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response){
         //后台接收
