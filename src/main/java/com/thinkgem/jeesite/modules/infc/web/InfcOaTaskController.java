@@ -65,6 +65,46 @@ public class InfcOaTaskController extends BaseController {
 	}
 
 
+	/**
+	 * 查询我的待办/已办任务
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "tbdTaskList",method = RequestMethod.GET)
+	public String list(HttpServletRequest request, HttpServletResponse response) {
+		//手机端传送userid
+		//然后根据userId和完成标记查询出本用户对应的任务信息列表
+		String userId = request.getParameter("userId");
+		String flag = request.getParameter("completeFlag");
+		OaTaskRecord oaTaskRecord = new OaTaskRecord();
+		User user = UserUtils.get(userId);
+		oaTaskRecord.setReceUser(user);
+		oaTaskRecord.setCompleteFlag(flag);
+		List<OaTaskRecord> recordList = oaTaskRecordService.findList(oaTaskRecord);
+		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+		List<Map<String, Object>> data = Lists.newArrayList();
+		for(OaTaskRecord oaTaskRecord2: recordList){
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("recordId",oaTaskRecord2.getId());
+			map.put("title",oaTaskRecord2.getTitle());
+			map.put("sendUser",oaTaskRecord2.getSendUser().getName());
+			map.put("forwardFlag",oaTaskRecord2.getForwardFlag());
+			map.put("sendDate",format.format(oaTaskRecord2.getSendDate()));
+			data.add(map);
+		}
+		DataStatusList status = new DataStatusList();
+		status.setSuccess("true");
+		if (recordList.size()>0){
+			status.setStatusMessage("ok");
+		}else {
+			status.setStatusMessage("暂无数据");
+		}
+		status.setData(data);
+		return this.renderString(response,status);
+	}
+
+
 
 	/**
 	 * 查询当前用户已发布的任务
