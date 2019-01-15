@@ -215,39 +215,36 @@ public class InfcOaTaskController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String reTime = format.format(oaTask.getCreateDate());
 		map.put("sendDate",reTime);
-		map.put("id",oaTask.getId());
+		map.put("taskId",oaTask.getId());
 
 		String receNames = "";
 		//任务回复列表
 		List<OaTaskRecord> list = oaTask.getOaTaskRecordList();
 		List<Map<String, Object>> data = Lists.newArrayList();
-		for (int i = 0; i<list.size();i++)
-		{
-			OaTaskRecord oaTaskRecord = oaTaskRecordService.get(list.get(i).getId());
-			if(i==list.size()-1){
+		for (int i = 0; i<list.size();i++) {
+			OaTaskRecord oaTaskRecord = list.get(i);
+			if (i == list.size() - 1) {
 				receNames += oaTaskRecord.getReceUser().getName();
+			} else {
+				receNames += oaTaskRecord.getReceUser().getName() + ",";
 			}
-			else{
-				receNames += oaTaskRecord.getReceUser().getName()+",";
-			}
-			//得到本项目的第I位接收人的回复列表
-			List<OaTaskReply> replylist = oaTaskRecord.getOaTaskReplyList();
+		}
+//			得到本项目的第I位接收人的回复列表
+			List<OaTaskReply> replylist = oaTaskRecordService.getOaTaskReplyList(oaTask);
 			for (int j=0;j<replylist.size();j++)
 			{
 				String id2 = replylist.get(j).getId();
 				OaTaskReply oaTaskReply = oaTaskReplyDao.get(id2);
 				Map<String, Object> map1 = Maps.newHashMap();
-				String id = oaTaskReply.getReceUser();
-				User user = UserUtils.get(id);
-				map1.put("user",user.getName());
+				User user = UserUtils.get(oaTaskReply.getSendUser());
+				map1.put("sendUser",user.getName());
 				map1.put("content",oaTaskReply.getReplyContent());
-				map1.put("ReplyFlag",oaTaskReply.getReplyFlag());
+				map1.put("replyFlag",oaTaskReply.getReplyFlag());
 				String reTime2 = format.format(oaTaskReply.getReplyDate());
-				map1.put("date",reTime2);
+				map1.put("replyDate",reTime2);
 				data.add(map1);
 			}
 
-		}
 		map.put("receNames",receNames);
 		map.put("replyList",data);
 		DataStatus dataStatusList = new DataStatus();

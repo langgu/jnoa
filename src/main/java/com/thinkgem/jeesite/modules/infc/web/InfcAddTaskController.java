@@ -74,7 +74,8 @@ public class InfcAddTaskController extends BaseController {
         String sendUser = oaTaskReply.getSendUser();  //发送人
         if(oaTaskRecordId!= null && replyFlag != null && replyContent != null && sendUser != null){
             OaTaskRecord oaTaskRecord = oaTaskRecordService.get(oaTaskRecordId);
-            oaTaskReply.setOaTask(oaTaskRecord);
+            oaTaskReply.setOaTask(oaTaskRecord.getOaTask());
+            oaTaskReply.setOaTaskRecord(oaTaskRecord);
             oaTaskReply.setReceUser(oaTaskRecord.getSendUser().getId());
             oaTaskReply.setReplyDate(new Date());  //回复时间
             oaTaskReply.setYear(DateUtils.getYear());

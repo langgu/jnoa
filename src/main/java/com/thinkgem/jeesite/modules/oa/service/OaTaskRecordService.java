@@ -72,7 +72,7 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 			}
 			if (OaTaskReply.DEL_FLAG_NORMAL.equals(oaTaskReply.getDelFlag())){
 				if (StringUtils.isBlank(oaTaskReply.getId())){
-					oaTaskReply.setOaTask(oaTaskRecord);
+					oaTaskReply.setOaTaskRecord(oaTaskRecord);
 					oaTaskReply.preInsert();
 					oaTaskReplyDao.insert(oaTaskReply);
 				}else{
@@ -100,7 +100,7 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 	public void saveByInfcReply(OaTaskReply oaTaskReply) {
 		oaTaskReply.setId(IdGen.uuid());
 		oaTaskReplyDao.insert(oaTaskReply);
-		OaTaskRecord oaTaskRecord = oaTaskReply.getOaTask();
+		OaTaskRecord oaTaskRecord = oaTaskReply.getOaTaskRecord();
 		String replyFlag = oaTaskReply.getReplyFlag();
 		if(replyFlag.equals("1")|| replyFlag.equals("2")){   //“1”：完成， “2”，无法完成
 			oaTaskRecord.setCompleteFlag(replyFlag);
@@ -123,4 +123,10 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 			}
 		}
 	}
+
+    public List<OaTaskReply> getOaTaskReplyList(OaTask oaTask) {
+		OaTaskReply oaTaskReply = new OaTaskReply();
+		oaTaskReply.setOaTask(oaTask);
+		return  oaTaskReplyDao.findList(oaTaskReply);
+    }
 }

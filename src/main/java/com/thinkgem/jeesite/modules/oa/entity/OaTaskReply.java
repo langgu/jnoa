@@ -19,7 +19,8 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class OaTaskReply extends DataEntity<OaTaskReply> {
 	
 	private static final long serialVersionUID = 1L;
-	private OaTaskRecord oaTask;		// 任务ID(主表是oa_task_record) 父类
+	private OaTask oaTask;		// 任务主表ID(主表是oa_task_record)
+	private OaTaskRecord oaTaskRecord;  //任务子表ID(主表是oa_task_record)
 	private String sendUser;		// 发送人
 	private String receUser;		// 接受人
 	private String replyFlag;		// 回复状态(完成/未完成/无法完成)
@@ -38,19 +39,27 @@ public class OaTaskReply extends DataEntity<OaTaskReply> {
 		super(id);
 	}
 
-	public OaTaskReply(OaTaskRecord oaTask){
+	public OaTaskReply(OaTaskRecord oaTaskRecord){
+		this.oaTaskRecord = oaTaskRecord;
+	}
+
+	public void setOaTask(OaTask oaTask) {
 		this.oaTask = oaTask;
 	}
 
-	@Length(min=0, max=64, message="任务ID(主表是oa_task_record)长度必须介于 0 和 64 之间")
-	public OaTaskRecord getOaTask() {
+	public OaTask getOaTask() {
 		return oaTask;
 	}
 
-	public void setOaTask(OaTaskRecord oaTask) {
-		this.oaTask = oaTask;
+	@Length(min=0, max=64, message="任务ID(主表是oa_task_record)长度必须介于 0 和 64 之间")
+	public OaTaskRecord getOaTaskRecord() {
+		return oaTaskRecord;
 	}
-	
+
+	public void setOaTaskRecord(OaTaskRecord oaTaskRecord) {
+		this.oaTaskRecord = oaTaskRecord;
+	}
+
 	@Length(min=0, max=64, message="发送人长度必须介于 0 和 64 之间")
 	public String getSendUser() {
 		return sendUser;
