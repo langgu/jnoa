@@ -95,6 +95,7 @@ public class OaTaskRecordService extends CrudService<OaTaskRecordDao, OaTaskReco
 	* @Author:         wfp
 	* @CreateDate:     2019/1/10 20:48
 	*/
+	@Transactional(readOnly = false)
 	public void saveByInfcReply(OaTaskReply oaTaskReply) {
 		oaTaskReply.setId(IdGen.uuid());
 		oaTaskReplyDao.insert(oaTaskReply);
