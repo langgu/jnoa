@@ -31,6 +31,7 @@ public class OaTaskRecord extends DataEntity<OaTaskRecord> {
 	private Date readDate;		// 阅读时间
 	private String forwardFlag;		// 是否是转发
 	private String completeFlag;		// 任务完成标记，&lsquo;0&rsquo;，未完成，&lsquo;1&rsquo;完成
+	private String notFlag ;//未完成标记
 	private String year;		// 年
 	private String month;		// 月
 	private String day;		// 日
@@ -38,6 +39,7 @@ public class OaTaskRecord extends DataEntity<OaTaskRecord> {
 
 	public OaTaskRecord() {
 		super();
+		this.notFlag = "3";
 	}
 
 	public OaTaskRecord(String id){
@@ -46,6 +48,14 @@ public class OaTaskRecord extends DataEntity<OaTaskRecord> {
 
 	public OaTaskRecord(OaTask oaTask){
 		this.oaTask = oaTask;
+	}
+
+	public String getNotFlag() {
+		return notFlag;
+	}
+
+	public void setNotFlag(String notFlag) {
+		this.notFlag = notFlag;
 	}
 
 	@Length(min=0, max=64, message="任务ID长度必须介于 0 和 64 之间")

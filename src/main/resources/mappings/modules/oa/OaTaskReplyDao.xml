@@ -85,6 +85,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				order by a.send_user_id,a.reply_date DESC
 			</otherwise>
 		</choose>
 	</select>

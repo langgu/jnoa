@@ -81,6 +81,9 @@ public class InfcOaTaskController extends BaseController {
 		User user = UserUtils.get(userId);
 		oaTaskRecord.setReceUser(user);
 		oaTaskRecord.setCompleteFlag(flag);
+		if(flag.equals("1")){
+			oaTaskRecord.setNotFlag("2");
+		}
 		List<OaTaskRecord> recordList = oaTaskRecordService.findList(oaTaskRecord);
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		List<Map<String, Object>> data = Lists.newArrayList();
@@ -174,7 +177,8 @@ public class InfcOaTaskController extends BaseController {
 			for(int i=0;i<replyList.size(); i++){
 				OaTaskReply reply =replyList.get(i);
 				Map<String, Object> map2 = Maps.newHashMap();
-				map2.put("receUser",UserUtils.get(reply.getReceUser()).getName());
+//				map2.put("receUser",UserUtils.get(reply.getReceUser()).getName());
+				map2.put("sendUser",UserUtils.get(reply.getSendUser()).getName());
 				map2.put("replyContent",reply.getReplyContent());
 				map2.put("replyDate",format.format(reply.getReplyDate()));
 				map2.put("replyFlag",reply.getReplyFlag());

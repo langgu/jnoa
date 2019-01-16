@@ -67,11 +67,7 @@
 				AND a.forward_flag = #{forwardFlag}
 			</if>
 			<if test="completeFlag != null and completeFlag != ''">
-				AND(a.complete_flag = #{completeFlag}
-				<if test="completeFlag == '1'">
-					OR a.complete_flag = #{DEL_FLAG_AUDIT}
-				</if>
-				)
+				AND(a.complete_flag = #{completeFlag} OR a.complete_flag = #{notFlag})
 			</if>
 			<if test="year != null and year != ''">
 				AND a.year = #{year}
