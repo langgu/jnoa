@@ -47,16 +47,17 @@ public class FileUploadController extends BaseController {
         if (commonsMultipartResolver.isMultipart(request)){
             try {
                 MultipartHttpServletRequest mulReq = (MultipartHttpServletRequest) request;
-                List<MultipartFile> files=mulReq.getFiles("uploadfile");
+                List<MultipartFile> files=mulReq.getFiles("uploadfile"); //获取多张图片
                 for(MultipartFile file : files){
-                    String imgName = file.getOriginalFilename();
-                    String suffix = imgName.substring(imgName.lastIndexOf(".")+1,imgName.length()).toLowerCase();
+                    String imgName = file.getOriginalFilename();  //获取图片的原始文件名
+                    String suffix = imgName.substring(imgName.lastIndexOf(".")+1,imgName.length()).toLowerCase();//获取文件后缀名是否为jpg
                     if(!"jpg".equals(suffix)){
                         resultJson.setStatusMessage("上传格式不正确");
                         return this.renderString(response,resultJson);
      }
                     String year = DateUtils.getYear();
                     String month =DateUtils.getMonth();
+                    //创建文件保存目录
                     String saveDir = Global.getUserfilesBaseDir() + Global.USERFILES_BASE_URL+"1/images/img/"+year+"/"+month+"/";
                     File dir = new File(saveDir);
                     if (!dir.exists()) {
