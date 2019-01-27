@@ -34,7 +34,7 @@ public class FileUploadController extends BaseController {
     /**
      * 上传照片
 	 * @return
-             */
+     */
     @RequestMapping(value="/uploadPhoto",method=RequestMethod.POST)
     @ResponseBody
     public String uploadPhoto(HttpServletRequest request,HttpServletResponse response){
@@ -46,7 +46,10 @@ public class FileUploadController extends BaseController {
         //判断 request 是否有文件上传,即多部分请求..
         if (commonsMultipartResolver.isMultipart(request)){
             try {
+                //将request转换成多分解请求
+//                MultipartHttpServletRequest mulReq = commonsMultipartResolver.resolveMultipart(request);
                 MultipartHttpServletRequest mulReq = (MultipartHttpServletRequest) request;
+                //用getFiles("file")的方式来处理多个文件。返回的是一个list.
                 List<MultipartFile> files=mulReq.getFiles("uploadfile"); //获取多张图片
                 for(MultipartFile file : files){
                     String imgName = file.getOriginalFilename();  //获取图片的原始文件名
@@ -54,18 +57,18 @@ public class FileUploadController extends BaseController {
                     if(!"jpg".equals(suffix)){
                         resultJson.setStatusMessage("上传格式不正确");
                         return this.renderString(response,resultJson);
-     }
+                    }
                     String year = DateUtils.getYear();
                     String month =DateUtils.getMonth();
                     //创建文件保存目录
                     String saveDir = Global.getUserfilesBaseDir() + Global.USERFILES_BASE_URL+"1/images/img/"+year+"/"+month+"/";
                     File dir = new File(saveDir);
-                    if (!dir.exists()) {
+                    if (!dir.exists()) {  //如果目录不存在则创建
                         dir.mkdirs();
                     }
                     File localFile = new File(dir +"/"+ file.getOriginalFilename());
                     try {
-                        file.transferTo(localFile);
+                        file.transferTo(localFile);  //通过MultipartFile的transferTo(File dest)这个方法来直接转存文件到指定的路径。
                     } catch (IllegalStateException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
