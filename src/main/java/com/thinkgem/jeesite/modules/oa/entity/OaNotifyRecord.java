@@ -28,7 +28,9 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 	private String receUserId;    //接收人
 	private String urgentFlag;    //是否为紧急通知标记
 	private String forwardFlag;   //是否为转发
-	
+	private String imgPath1;  //图片路径1
+	private String imgPath2;   //图片路径2
+	private String imgPath3;  //图片路径3
 	
 	public OaNotifyRecord() {
 		super();
@@ -130,5 +132,29 @@ public class OaNotifyRecord extends DataEntity<OaNotifyRecord> {
 
 	public void setForwardFlag(String forwardFlag) {
 		this.forwardFlag = forwardFlag;
+	}
+
+	public String getImgPath1() {
+		return imgPath1;
+	}
+
+	public void setImgPath1(String imgPath1) {
+		this.imgPath1 = imgPath1;
+	}
+
+	public String getImgPath2() {
+		return imgPath2;
+	}
+
+	public void setImgPath2(String imgPath2) {
+		this.imgPath2 = imgPath2;
+	}
+
+	public String getImgPath3() {
+		return imgPath3;
+	}
+
+	public void setImgPath3(String imgPath3) {
+		this.imgPath3 = imgPath3;
 	}
 }

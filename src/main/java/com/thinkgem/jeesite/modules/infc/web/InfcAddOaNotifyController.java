@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.infc.web;
 
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
@@ -39,14 +41,7 @@ public class InfcAddOaNotifyController extends BaseController {
     //@RequestBody   请求对象实体类 通过@requestBody可以将请求体中的JSON字符串绑定到相应的bean上
     @RequestMapping(value = "addOaNotify",produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
     public String addOaNotify(@RequestBody OaNotify oaNotify, HttpServletRequest request, HttpServletResponse response){
-        //后台接收
-//        InputStreamReader reader=new InputStreamReader(request.getInputStream(),"UTF-8");
-//        char [] buff=new char[1024];
-//        int length=0;
-//        while((length=reader.read(buff))!=-1){
-//            String x=new String(buff,0,length);
-//            System.out.println(x);
-//        }
+
         DataStatus status = new DataStatus();
         String title = oaNotify.getTitle();    //标题
         String content = oaNotify.getContent();   //内容
@@ -54,6 +49,25 @@ public class InfcAddOaNotifyController extends BaseController {
         String createBy = oaNotify.getSendUserId();  //发送人
         String userIds = oaNotify.getReceUserIds();  //接收人
         String urgentFlag = oaNotify.getUrgentFlag();   //是否为紧急通知
+        String year = DateUtils.getYear();
+        String month = DateUtils.getMonth();
+        String saveDir = "/jnoa"+ Global.USERFILES_BASE_URL+"1/images/img/"+year+"/"+month+"/";
+        if(oaNotify.getImgPath1()!=null){
+            String path = oaNotify.getImgPath1();
+            String imgName = path.substring(path.lastIndexOf("/")+1,path.length());
+            oaNotify.setImgPath1(saveDir+imgName);
+
+        }
+        if(oaNotify.getImgPath2()!=null){
+            String path = oaNotify.getImgPath2();
+            String imgName = path.substring(path.lastIndexOf("/")+1,path.length());
+            oaNotify.setImgPath2(saveDir+imgName);
+        }
+        if(oaNotify.getImgPath3()!=null){
+            String path = oaNotify.getImgPath3();
+            String imgName = path.substring(path.lastIndexOf("/")+1,path.length());
+            oaNotify.setImgPath3(saveDir+imgName);
+        }
         if(title != null && content != null && createBy != null && userIds!= null){
             User user = UserUtils.get(createBy);
             oaNotify.setCreateBy(user);

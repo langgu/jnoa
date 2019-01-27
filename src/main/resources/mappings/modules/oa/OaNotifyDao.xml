@@ -9,6 +9,9 @@
 		a.CONTENT AS "content",
 		a.FILES AS "files",
      	/*a.STATUS AS "status",*/
+     	a.img_path1 AS "imgPath1",
+     	a.img_path2 AS "imgPath2",
+     	a.img_path3 AS "imgPath3",
 		a.CREATE_BY AS "createBy.id",
 		a.CREATE_DATE AS "createDate",
 		a.UPDATE_BY AS "updateBy.id",
@@ -105,6 +108,9 @@
 			CONTENT,
 		    URGENT_FLAG,
 			FILES,
+		    img_path1,
+		    img_path2,
+		    img_path3,
 		<!--STATUS,-->
 			CREATE_BY,
 			CREATE_DATE,
@@ -119,6 +125,9 @@
 			#{content},
 		    #{urgentFlag},
 			#{files},
+		    #{imgPath1},
+		    #{imgPath2},
+		    #{imgPath3},
 			<!--#{status},-->
 			#{createBy.id},
 			#{createDate},

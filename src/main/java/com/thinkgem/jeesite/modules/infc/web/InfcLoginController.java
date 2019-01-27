@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.modules.infc.web;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
 * @Description:    登录验证接口
@@ -36,29 +38,29 @@ public class InfcLoginController extends BaseController {
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         DataStatus status = new DataStatus();
         String userName = request.getParameter("userName");  //获取传递参数 username
-        String password = request.getParameter("password");  //获取传递参数 password
+//      String password = request.getParameter("password");  //获取传递参数 password
         User user = systemService.getUserByLoginName(userName);  //先验证用户是否存在
-
+        Map<String, Object> map = Maps.newHashMap();
         if(user==null){
             status.setStatusMessage("账号不存在");
         }
         else{
             if (Global.NO.equals(user.getLoginFlag())){
                 status.setStatusMessage("该账号已被禁用");
-            }
-            if (SystemService.validatePassword(password, user.getPassword())){  //验证密码
+            } else{
+                map.put("password",user.getPassword());
                 status.setStatusMessage("ok");
                 status.setSuccess("true");
+                status.setData(map);
             }
-            else{
-                status.setStatusMessage("密码错误");
-            }
+//            if ( user.getPassword().equals(password)){  //验证密码
+//                status.setStatusMessage("ok");
+//                status.setSuccess("true");
+//            }
+//            else{
+//                status.setStatusMessage("密码错误");
+//            }
         }
-//        response.setContentType("text/plain");
-//        response.setCharacterEncoding("gb2312");
-//        PrintWriter out = new PrintWriter(response.getOutputStream());
-//        out.print(JsonMapper.toJsonString(status));
-//        out.flush();
         return this.renderString(response,status);
     }
 }

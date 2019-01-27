@@ -63,6 +63,9 @@
 		    TITLE,
 		    CONTENT,
 		    FILES,
+		    img_path1,
+		    img_path2,
+		    img_path3,
 		    urgent_flag,
 		    forward_flag
 		) VALUES (
@@ -75,6 +78,9 @@
 			#{title},
 			#{content},
 			#{files},
+			#{imgPath1},
+			#{imgPath2},
+			#{imgPath3},
 			#{urgentFlag},
 			#{forwardFlag}
 		)

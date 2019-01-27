@@ -69,6 +69,9 @@ public class InfcOaNotifyController extends BaseController {
 		map.put("title", entity.getTitle());
 		map.put("content", entity.getContent());
 		map.put("files", entity.getFiles());
+		map.put("imgPath1",entity.getImgPath1());
+		map.put("imgPath2",entity.getImgPath2());
+		map.put("imgPath3",entity.getImgPath3());
 		map.put("urgentFlag", entity.getUrgentFlag());
 		map.put("send_user_name",UserUtils.get(entity.getCreateBy().getId()).getName());
 		DateFormat format = new SimpleDateFormat("yyyy年MM月dd日");

@@ -39,6 +39,10 @@ public class OaNotify extends DataEntity<OaNotify> {
 	private String forwardFlag;   //是否为转发
 	private String receUserIds;   //接收人字符串拼接
 	private String sendUserId;    //发送人id
+
+	private String imgPath1;  //图片路径1
+	private String imgPath2;   //图片路径2
+	private String imgPath3;  //图片路径3
 	
 	private List<OaNotifyRecord> oaNotifyRecordList = Lists.newArrayList();
 	
@@ -204,5 +208,29 @@ public class OaNotify extends DataEntity<OaNotify> {
 
 	public void setSendUserId(String sendUserId) {
 		this.sendUserId = sendUserId;
+	}
+
+	public String getImgPath1() {
+		return imgPath1;
+	}
+
+	public void setImgPath1(String imgPath1) {
+		this.imgPath1 = imgPath1;
+	}
+
+	public String getImgPath2() {
+		return imgPath2;
+	}
+
+	public void setImgPath2(String imgPath2) {
+		this.imgPath2 = imgPath2;
+	}
+
+	public String getImgPath3() {
+		return imgPath3;
+	}
+
+	public void setImgPath3(String imgPath3) {
+		this.imgPath3 = imgPath3;
 	}
 }
