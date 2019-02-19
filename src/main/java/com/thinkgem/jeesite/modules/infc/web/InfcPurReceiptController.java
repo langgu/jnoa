@@ -63,7 +63,7 @@ public class InfcPurReceiptController extends BaseController {
 			//map.put("send_date",reTime);
 			map.put("goodsName",purchaseReceipt1.getGoodsName());
 			map.put("purchasePerson",purchaseReceipt1.getPurchasePerson());
-			map.put("date",purchaseReceipt1.getRecDate());
+//			map.put("date",purchaseReceipt1.getRecDate());
 			mapList.add(map);
 		}
 		status.setData(mapList);
@@ -86,7 +86,7 @@ public class InfcPurReceiptController extends BaseController {
  * @date 2019/2/918:09
  */
 	@ResponseBody
-	@RequestMapping(value = "purReceiptDetails",method = RequestMethod.GET)
+	@RequestMapping(value = "PurReceiptDetails",method = RequestMethod.GET)
 	public String get(HttpServletRequest request, HttpServletResponse response) {
 		String supplierId = request.getParameter("supplierId");
 		PurchaseReceipt entity = null;
@@ -105,7 +105,7 @@ public class InfcPurReceiptController extends BaseController {
 		map.put("unitPrice",entity.getUnitPrice());
 		map.put("goodsNum",entity.getGoodsNum());
 		map.put("totalPrice",entity.getTotalPrice());
-		map.put("date",entity.getRecDate());
+//		map.put("date",entity.getRecDate());
 		map.put("purchasePerson",entity.getPurchasePerson());
 		map.put("payMethod",entity.getPayMethod());
 

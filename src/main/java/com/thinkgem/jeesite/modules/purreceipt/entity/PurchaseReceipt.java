@@ -13,7 +13,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 进货订单管理Entity
  * @author lvyan
- * @version 2019-02-16
+ * @version 2019-02-19
  */
 public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	
@@ -27,8 +27,6 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	private Date recDate;		// 进货时间
 	private String purchasePerson;		// 采购人
 	private String payMethod;		// 支付方式
-	private Date beginDate;		// 开始 进货时间
-	private Date endDate;		// 结束 进货时间
 	
 	public PurchaseReceipt() {
 		super();
@@ -87,16 +85,16 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	public void setTotalPrice(String totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getRecDate() {
 		return recDate;
 	}
 
-	public void setRecDate(Date date) {
-		this.recDate = date;
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
 	}
-
+	
 	@Length(min=0, max=255, message="采购人长度必须介于 0 和 255 之间")
 	public String getPurchasePerson() {
 		return purchasePerson;
@@ -115,20 +113,4 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 		this.payMethod = payMethod;
 	}
 	
-	public Date getBeginDate() {
-		return beginDate;
-	}
-
-	public void setBeginDate(Date beginDate) {
-		this.beginDate = beginDate;
-	}
-	
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-		
 }

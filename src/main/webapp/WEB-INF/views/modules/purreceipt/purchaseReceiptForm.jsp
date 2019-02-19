@@ -77,7 +77,7 @@
 			<label class="control-label">进货时间：</label>
 			<div class="controls">
 				<input name="recDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="${purchaseReceipt.recDate}"
+					value="<fmt:formatDate value="${purchaseReceipt.recDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
@@ -91,6 +91,12 @@
 			<label class="control-label">支付方式：</label>
 			<div class="controls">
 				<form:input path="payMethod" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">备注：</label>
+			<div class="controls">
+				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="2000" class="input-xxlarge "/>
 			</div>
 		</div>
 		<div class="form-actions">

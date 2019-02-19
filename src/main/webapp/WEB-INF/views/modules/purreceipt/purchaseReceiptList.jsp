@@ -29,31 +29,23 @@
 				<sys:treeselect id="supplier" name="supplier.id" value="${purchaseReceipt.supplier.id}" labelName="supplier.name" labelValue="${purchaseReceipt.supplier.name}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
-			<%--<li><label>货物名称：</label>--%>
-				<%--<form:input path="goodsName" htmlEscape="false" maxlength="255" class="input-medium"/>--%>
-			<%--</li>--%>
+			<li><label>货物名称：</label>
+				<form:input path="goodsName" htmlEscape="false" maxlength="255" class="input-medium"/>
+			</li>
 			<li><label>进货类型：</label>
 				<form:select path="goodsType" class="input-medium">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('goods_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
-			<%--<li><label>货物单价（元）：</label>--%>
-				<%--<form:input path="unitPrice" htmlEscape="false" class="input-medium"/>--%>
-			<%--</li>--%>
-			<%--<li><label>进货数量（个/斤）：</label>--%>
-				<%--<form:input path="goodsNum" htmlEscape="false" class="input-medium"/>--%>
-			<%--</li>--%>
-			<%--<li><label>总价：</label>--%>
-				<%--<form:input path="totalPrice" htmlEscape="false" class="input-medium"/>--%>
-			<%--</li>--%>
-			<li><label>进货时间：</label>
-				<input name="beginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="${purchaseReceipt.beginDate}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
-				<input name="endDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="${purchaseReceipt.endDate}"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			<li><label>货物单价（元）：</label>
+				<form:input path="unitPrice" htmlEscape="false" class="input-medium"/>
+			</li>
+			<li><label>进货数量（个/斤）：</label>
+				<form:input path="goodsNum" htmlEscape="false" class="input-medium"/>
+			</li>
+			<li><label>总价：</label>
+				<form:input path="totalPrice" htmlEscape="false" class="input-medium"/>
 			</li>
 			<li><label>采购人：</label>
 				<form:input path="purchasePerson" htmlEscape="false" maxlength="255" class="input-medium"/>
@@ -75,9 +67,10 @@
 				<th>货物单价（元）</th>
 				<th>进货数量（个/斤）</th>
 				<th>总价</th>
-				<th>进货时间</th>
 				<th>采购人</th>
 				<th>支付方式</th>
+				<th>更新时间</th>
+				<th>备注</th>
 				<shiro:hasPermission name="purreceipt:purchaseReceipt:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -103,13 +96,16 @@
 					${purchaseReceipt.totalPrice}
 				</td>
 				<td>
-					"${purchaseReceipt.recDate}"
-				</td>
-				<td>
 					${purchaseReceipt.purchasePerson}
 				</td>
 				<td>
 					${purchaseReceipt.payMethod}
+				</td>
+				<td>
+					<fmt:formatDate value="${purchaseReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					${purchaseReceipt.remarks}
 				</td>
 				<shiro:hasPermission name="purreceipt:purchaseReceipt:edit"><td>
     				<a href="${ctx}/purreceipt/purchaseReceipt/form?id=${purchaseReceipt.id}">修改</a>

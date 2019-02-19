@@ -13,6 +13,12 @@
 		a.rec_date AS "recDate",
 		a.purchase_person AS "purchasePerson",
 		a.pay_method AS "payMethod",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
 		u2.name AS "supplier.name"
 	</sql>
 	
@@ -34,7 +40,7 @@
 		FROM purchase_receipt a
 		<include refid="purchaseReceiptJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier = #{supplier.id}
 			</if>
@@ -53,9 +59,6 @@
 			<if test="totalPrice != null and totalPrice != ''">
 				AND a.total_price = #{totalPrice}
 			</if>
-			<if test="beginDate != null and endDate != null and beginDate != '' and endDate != ''">
-				AND a.rec_date BETWEEN #{beginDate} AND #{endDate}
-			</if>
 			<if test="purchasePerson != null and purchasePerson != ''">
 				AND a.purchase_person = #{purchasePerson}
 			</if>
@@ -68,6 +71,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -78,13 +82,14 @@
 		FROM purchase_receipt a
 		<include refid="purchaseReceiptJoins"/>
 		<where>
-			
+			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+				ORDER BY a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -100,7 +105,13 @@
 			total_price,
 			rec_date,
 			purchase_person,
-			pay_method
+			pay_method,
+			create_date,
+			update_date,
+			create_by,
+			update_by,
+			remarks,
+			del_flag
 		) VALUES (
 			#{id},
 			#{supplier.id},
@@ -111,7 +122,13 @@
 			#{totalPrice},
 			#{recDate},
 			#{purchasePerson},
-			#{payMethod}
+			#{payMethod},
+			#{createDate},
+			#{updateDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
 		)
 	</insert>
 	
@@ -125,12 +142,16 @@
 			total_price = #{totalPrice},
 			rec_date = #{recDate},
 			purchase_person = #{purchasePerson},
-			pay_method = #{payMethod}
+			pay_method = #{payMethod},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		DELETE FROM purchase_receipt
+		UPDATE purchase_receipt SET 
+			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
 	
