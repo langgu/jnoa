@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.t.dao.ActEvtLogDao">
+    
+	<sql id="actEvtLogColumns">
+		a.log_nr_ AS "logNr",
+		a.type_ AS "type",
+		a.proc_def_id_ AS "procDefId",
+		a.proc_inst_id_ AS "procInstId",
+		a.execution_id_ AS "executionId",
+		a.task_id_ AS "taskId",
+		a.time_stamp_ AS "timeStamp",
+		a.user_id_ AS "user.id",
+		a.data_ AS "data",
+		a.lock_owner_ AS "lockOwner",
+		a.lock_time_ AS "lockTime",
+		a.is_processed_ AS "isProcessed",
+		u8.name AS "user.name"
+	</sql>
+	
+	<sql id="actEvtLogJoins">
+		LEFT JOIN sys_user u8 ON u8.id = a.user_id_
+	</sql>
+    
+	<select id="get" resultType="ActEvtLog">
+		SELECT 
+			<include refid="actEvtLogColumns"/>
+		FROM act_evt_log a
+		<include refid="actEvtLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ActEvtLog">
+		SELECT 
+			<include refid="actEvtLogColumns"/>
+		FROM act_evt_log a
+		<include refid="actEvtLogJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ActEvtLog">
+		SELECT 
+			<include refid="actEvtLogColumns"/>
+		FROM act_evt_log a
+		<include refid="actEvtLogJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO act_evt_log(
+			log_nr_,
+			type_,
+			proc_def_id_,
+			proc_inst_id_,
+			execution_id_,
+			task_id_,
+			time_stamp_,
+			user_id_,
+			data_,
+			lock_owner_,
+			lock_time_,
+			is_processed_
+		) VALUES (
+			#{logNr},
+			#{type},
+			#{procDefId},
+			#{procInstId},
+			#{executionId},
+			#{taskId},
+			#{timeStamp},
+			#{user.id},
+			#{data},
+			#{lockOwner},
+			#{lockTime},
+			#{isProcessed}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE act_evt_log SET 	
+			log_nr_ = #{logNr},
+			type_ = #{type},
+			proc_def_id_ = #{procDefId},
+			proc_inst_id_ = #{procInstId},
+			execution_id_ = #{executionId},
+			task_id_ = #{taskId},
+			time_stamp_ = #{timeStamp},
+			user_id_ = #{user.id},
+			data_ = #{data},
+			lock_owner_ = #{lockOwner},
+			lock_time_ = #{lockTime},
+			is_processed_ = #{isProcessed}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM act_evt_log
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
