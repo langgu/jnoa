@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.purreceipt.dao.PurchaseReceiptDao">
+    
+	<sql id="purchaseReceiptColumns">
+		a.id AS "id",
+		a.supplier AS "supplier.id",
+		a.goods_name AS "goodsName",
+		a.goods_type AS "goodsType",
+		a.unit_price AS "unitPrice",
+		a.goods_num AS "goodsNum",
+		a.total_price AS "totalPrice",
+		a.rec_date AS "recDate",
+		a.purchase_person AS "purchasePerson",
+		a.pay_method AS "payMethod",
+		u2.name AS "supplier.name"
+	</sql>
+	
+	<sql id="purchaseReceiptJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.supplier
+	</sql>
+    
+	<select id="get" resultType="PurchaseReceipt">
+		SELECT 
+			<include refid="purchaseReceiptColumns"/>
+		FROM purchase_receipt a
+		<include refid="purchaseReceiptJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PurchaseReceipt">
+		SELECT 
+			<include refid="purchaseReceiptColumns"/>
+		FROM purchase_receipt a
+		<include refid="purchaseReceiptJoins"/>
+		<where>
+			
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier = #{supplier.id}
+			</if>
+			<if test="goodsName != null and goodsName != ''">
+				AND a.goods_name = #{goodsName}
+			</if>
+			<if test="goodsType != null and goodsType != ''">
+				AND a.goods_type = #{goodsType}
+			</if>
+			<if test="unitPrice != null and unitPrice != ''">
+				AND a.unit_price = #{unitPrice}
+			</if>
+			<if test="goodsNum != null and goodsNum != ''">
+				AND a.goods_num = #{goodsNum}
+			</if>
+			<if test="totalPrice != null and totalPrice != ''">
+				AND a.total_price = #{totalPrice}
+			</if>
+			<if test="beginDate != null and endDate != null and beginDate != '' and endDate != ''">
+				AND a.rec_date BETWEEN #{beginDate} AND #{endDate}
+			</if>
+			<if test="purchasePerson != null and purchasePerson != ''">
+				AND a.purchase_person = #{purchasePerson}
+			</if>
+			<if test="payMethod != null and payMethod != ''">
+				AND a.pay_method = #{payMethod}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PurchaseReceipt">
+		SELECT 
+			<include refid="purchaseReceiptColumns"/>
+		FROM purchase_receipt a
+		<include refid="purchaseReceiptJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO purchase_receipt(
+			id,
+			supplier,
+			goods_name,
+			goods_type,
+			unit_price,
+			goods_num,
+			total_price,
+			rec_date,
+			purchase_person,
+			pay_method
+		) VALUES (
+			#{id},
+			#{supplier.id},
+			#{goodsName},
+			#{goodsType},
+			#{unitPrice},
+			#{goodsNum},
+			#{totalPrice},
+			#{recDate},
+			#{purchasePerson},
+			#{payMethod}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE purchase_receipt SET 	
+			supplier = #{supplier.id},
+			goods_name = #{goodsName},
+			goods_type = #{goodsType},
+			unit_price = #{unitPrice},
+			goods_num = #{goodsNum},
+			total_price = #{totalPrice},
+			rec_date = #{recDate},
+			purchase_person = #{purchasePerson},
+			pay_method = #{payMethod}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM purchase_receipt
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
