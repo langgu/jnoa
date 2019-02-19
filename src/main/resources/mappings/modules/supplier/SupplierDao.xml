@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.supplier.dao.SupplierDao">
+    
+	<sql id="supplierColumns">
+		a.id AS "id",
+		a.sup_name AS "supName",
+		a.reg_capital AS "regCapital",
+		a.legal_person AS "legalPerson",
+		a.sup_nature AS "supNature",
+		a.sup_url AS "supUrl",
+		a.sup_address AS "supAddress",
+		a.set_time AS "setTime",
+		a.zip_code AS "zipCode",
+		a.contact AS "contact",
+		a.sup_email AS "supEmail",
+		a.sup_tel AS "supTel",
+		a.fax_num AS "faxNum",
+		a.bank_name AS "bankName",
+		a.bank_num AS "bankNum",
+		a.credit_rating AS "creditRating",
+		a.business_scope AS "businessScope",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="supplierJoins">
+	</sql>
+    
+	<select id="get" resultType="Supplier">
+		SELECT 
+			<include refid="supplierColumns"/>
+		FROM supplier a
+		<include refid="supplierJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Supplier">
+		SELECT 
+			<include refid="supplierColumns"/>
+		FROM supplier a
+		<include refid="supplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Supplier">
+		SELECT 
+			<include refid="supplierColumns"/>
+		FROM supplier a
+		<include refid="supplierJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO supplier(
+			id,
+			sup_name,
+			reg_capital,
+			legal_person,
+			sup_nature,
+			sup_url,
+			sup_address,
+			set_time,
+			zip_code,
+			contact,
+			sup_email,
+			sup_tel,
+			fax_num,
+			bank_name,
+			bank_num,
+			credit_rating,
+			business_scope,
+			create_date,
+			update_date,
+			create_by,
+			update_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{supName},
+			#{regCapital},
+			#{legalPerson},
+			#{supNature},
+			#{supUrl},
+			#{supAddress},
+			#{setTime},
+			#{zipCode},
+			#{contact},
+			#{supEmail},
+			#{supTel},
+			#{faxNum},
+			#{bankName},
+			#{bankNum},
+			#{creditRating},
+			#{businessScope},
+			#{createDate},
+			#{updateDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE supplier SET 	
+			sup_name = #{supName},
+			reg_capital = #{regCapital},
+			legal_person = #{legalPerson},
+			sup_nature = #{supNature},
+			sup_url = #{supUrl},
+			sup_address = #{supAddress},
+			set_time = #{setTime},
+			zip_code = #{zipCode},
+			contact = #{contact},
+			sup_email = #{supEmail},
+			sup_tel = #{supTel},
+			fax_num = #{faxNum},
+			bank_name = #{bankName},
+			bank_num = #{bankNum},
+			credit_rating = #{creditRating},
+			business_scope = #{businessScope},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE supplier SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
