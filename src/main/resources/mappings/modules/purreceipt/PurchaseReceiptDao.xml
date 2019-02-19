@@ -30,11 +30,23 @@
 	
 	<select id="findList" resultType="PurchaseReceipt">
 		SELECT 
-			<include refid="purchaseReceiptColumns"/>
+			<!--<include refid="purchaseReceiptColumns"/>-->
+		a.id AS "id",
+		a.supplier AS "supplier.id",
+		a.goods_name AS "goodsName",
+		a.goods_type AS "goodsType",
+		a.unit_price AS "unitPrice",
+		a.goods_num AS "goodsNum",
+		a.total_price AS "totalPrice",
+		a.rec_date AS "recDate",
+		a.purchase_person AS "purchasePerson",
+		a.pay_method AS "payMethod",
+		u2.name AS "supplier.name"
 		FROM purchase_receipt a
-		<include refid="purchaseReceiptJoins"/>
-		<where>
-			
+		LEFT JOIN sys_user u2 ON u2.id = a.supplier
+		<!--<include refid="purchaseReceiptJoins"/>-->
+		<!--<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier = #{supplier.id}
 			</if>
@@ -62,14 +74,14 @@
 			<if test="payMethod != null and payMethod != ''">
 				AND a.pay_method = #{payMethod}
 			</if>
-		</where>
-		<choose>
+		</where>-->
+		<!--<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
 			</otherwise>
-		</choose>
+		</choose>-->
 	</select>
 	
 	<select id="findAllList" resultType="PurchaseReceipt">
