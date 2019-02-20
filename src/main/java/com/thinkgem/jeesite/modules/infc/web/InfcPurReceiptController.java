@@ -12,19 +12,19 @@ import com.thinkgem.jeesite.modules.infc.entity.DataStatus;
 import com.thinkgem.jeesite.modules.infc.entity.DataStatusList;
 import com.thinkgem.jeesite.modules.purreceipt.entity.PurchaseReceipt;
 import com.thinkgem.jeesite.modules.purreceipt.service.PurchaseReceiptService;
-import com.thinkgem.jeesite.modules.supplier.entity.Supplier;
-import com.thinkgem.jeesite.modules.supplier.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +62,10 @@ public class InfcPurReceiptController extends BaseController {
 	//		String reTime = format.format(purchaseReceipt1.getCreateDate());
 			//map.put("send_date",reTime);
 			map.put("goodsName",purchaseReceipt1.getGoodsName());
-			map.put("purchasePerson",purchaseReceipt1.getPurchasePerson());
+			map.put("totalPrice",purchaseReceipt1.getTotalPrice());
+			Date da = purchaseReceipt1.getRecDate();
+			String strDate = format.format(da);
+			map.put("date",strDate);
 //			map.put("date",purchaseReceipt1.getRecDate());
 			mapList.add(map);
 		}
@@ -105,6 +108,9 @@ public class InfcPurReceiptController extends BaseController {
 		map.put("unitPrice",entity.getUnitPrice());
 		map.put("goodsNum",entity.getGoodsNum());
 		map.put("totalPrice",entity.getTotalPrice());
+		Date da = entity.getRecDate();
+		String strDate = (new SimpleDateFormat("yyyy-MM-dd").format(da));
+		map.put("date",strDate);
 //		map.put("date",entity.getRecDate());
 		map.put("purchasePerson",entity.getPurchasePerson());
 		map.put("payMethod",entity.getPayMethod());

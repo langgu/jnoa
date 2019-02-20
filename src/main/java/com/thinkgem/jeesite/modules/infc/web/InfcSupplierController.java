@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +67,8 @@ public class InfcSupplierController extends BaseController {
 			String reTime = format.format(supplier1.getCreateDate());
 			map.put("send_date",reTime);
 			map.put("supName",supplier1.getSupName());
-			map.put("legalPerson",supplier1.getLegalPerson());
-			map.put("supAddress",supplier1.getSupAddress());
+			map.put("contact",supplier1.getContact());
+			map.put("supTel",supplier1.getSupTel());
 			mapList.add(map);
 		}
 		status.setData(mapList);
@@ -109,7 +110,9 @@ public class InfcSupplierController extends BaseController {
 		map.put("regCapital",entity.getRegCapital());
 		map.put("supNature",entity.getSupNature());
 		map.put("supUrl",entity.getSupUrl());
-		map.put("setTime",entity.getSetTime());
+		Date da = entity.getSetTime();
+		String strDate = (new SimpleDateFormat("yyyy-MM-dd").format(da));
+		map.put("setTime",strDate);
 		map.put("zipCode",entity.getZipCode());
 		map.put("contact",entity.getContact());
 		map.put("supEmail",entity.getSupEmail());
