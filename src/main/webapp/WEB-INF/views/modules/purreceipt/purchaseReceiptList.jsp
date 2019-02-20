@@ -26,8 +26,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>供应商：</label>
-				<sys:treeselect id="supplier" name="supplier.id" value="${purchaseReceipt.supplier.id}" labelName="supplier.name" labelValue="${purchaseReceipt.supplier.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<form:input path="supplier" htmlEscape="false" maxlength="2000" class="input-medium"/>
 			</li>
 			<li><label>货物名称：</label>
 				<form:input path="goodsName" htmlEscape="false" maxlength="255" class="input-medium"/>
@@ -47,11 +46,22 @@
 			<li><label>总价：</label>
 				<form:input path="totalPrice" htmlEscape="false" class="input-medium"/>
 			</li>
+			<li><label>进货时间：</label>
+				<input name="beginRecDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${purchaseReceipt.beginRecDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
+				<input name="endRecDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					value="<fmt:formatDate value="${purchaseReceipt.endRecDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			</li>
 			<li><label>采购人：</label>
 				<form:input path="purchasePerson" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
 			<li><label>支付方式：</label>
-				<form:input path="payMethod" htmlEscape="false" maxlength="255" class="input-medium"/>
+				<form:select path="payMethod" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('pay_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -67,6 +77,7 @@
 				<th>货物单价（元）</th>
 				<th>进货数量（个/斤）</th>
 				<th>总价</th>
+				<th>进货时间</th>
 				<th>采购人</th>
 				<th>支付方式</th>
 				<th>更新时间</th>
@@ -78,7 +89,7 @@
 		<c:forEach items="${page.list}" var="purchaseReceipt">
 			<tr>
 				<td><a href="${ctx}/purreceipt/purchaseReceipt/form?id=${purchaseReceipt.id}">
-					${purchaseReceipt.supplier.name}
+					${purchaseReceipt.supplier}
 				</a></td>
 				<td>
 					${purchaseReceipt.goodsName}
@@ -96,10 +107,13 @@
 					${purchaseReceipt.totalPrice}
 				</td>
 				<td>
+					<fmt:formatDate value="${purchaseReceipt.recDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
 					${purchaseReceipt.purchasePerson}
 				</td>
 				<td>
-					${purchaseReceipt.payMethod}
+					${fns:getDictLabel(purchaseReceipt.payMethod, 'pay_method', '')}
 				</td>
 				<td>
 					<fmt:formatDate value="${purchaseReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

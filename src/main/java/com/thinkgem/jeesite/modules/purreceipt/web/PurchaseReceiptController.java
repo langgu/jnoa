@@ -25,7 +25,7 @@ import com.thinkgem.jeesite.modules.purreceipt.service.PurchaseReceiptService;
 /**
  * 进货订单管理Controller
  * @author lvyan
- * @version 2019-02-19
+ * @version 2019-02-20
  */
 @Controller
 @RequestMapping(value = "${adminPath}/purreceipt/purchaseReceipt")

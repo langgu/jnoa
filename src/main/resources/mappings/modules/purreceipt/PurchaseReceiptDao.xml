@@ -4,7 +4,7 @@
     
 	<sql id="purchaseReceiptColumns">
 		a.id AS "id",
-		a.supplier AS "supplier.id",
+		a.supplier AS "supplier",
 		a.goods_name AS "goodsName",
 		a.goods_type AS "goodsType",
 		a.unit_price AS "unitPrice",
@@ -18,12 +18,10 @@
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		u2.name AS "supplier.name"
+		a.del_flag AS "delFlag"
 	</sql>
 	
 	<sql id="purchaseReceiptJoins">
-		LEFT JOIN sys_user u2 ON u2.id = a.supplier
 	</sql>
     
 	<select id="get" resultType="PurchaseReceipt">
@@ -41,8 +39,8 @@
 		<include refid="purchaseReceiptJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="supplier != null and supplier.id != null and supplier.id != ''">
-				AND a.supplier = #{supplier.id}
+			<if test="supplier != null and supplier != ''">
+				AND a.supplier = #{supplier}
 			</if>
 			<if test="goodsName != null and goodsName != ''">
 				AND a.goods_name = #{goodsName}
@@ -58,6 +56,9 @@
 			</if>
 			<if test="totalPrice != null and totalPrice != ''">
 				AND a.total_price = #{totalPrice}
+			</if>
+			<if test="beginRecDate != null and endRecDate != null and beginRecDate != '' and endRecDate != ''">
+				AND a.rec_date BETWEEN #{beginRecDate} AND #{endRecDate}
 			</if>
 			<if test="purchasePerson != null and purchasePerson != ''">
 				AND a.purchase_person = #{purchasePerson}
@@ -114,7 +115,7 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{supplier.id},
+			#{supplier},
 			#{goodsName},
 			#{goodsType},
 			#{unitPrice},
@@ -134,7 +135,7 @@
 	
 	<update id="update">
 		UPDATE purchase_receipt SET 	
-			supplier = #{supplier.id},
+			supplier = #{supplier},
 			goods_name = #{goodsName},
 			goods_type = #{goodsType},
 			unit_price = #{unitPrice},

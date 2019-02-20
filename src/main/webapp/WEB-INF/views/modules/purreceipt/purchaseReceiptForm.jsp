@@ -36,8 +36,7 @@
 		<div class="control-group">
 			<label class="control-label">供应商：</label>
 			<div class="controls">
-				<sys:treeselect id="supplier" name="supplier.id" value="${purchaseReceipt.supplier.id}" labelName="supplier.name" labelValue="${purchaseReceipt.supplier.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+				<form:input path="supplier" htmlEscape="false" maxlength="2000" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -90,7 +89,10 @@
 		<div class="control-group">
 			<label class="control-label">支付方式：</label>
 			<div class="controls">
-				<form:input path="payMethod" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:select path="payMethod" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('pay_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</div>
 		</div>
 		<div class="control-group">

@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.modules.purreceipt.dao.PurchaseReceiptDao;
 /**
  * 进货订单管理Service
  * @author lvyan
- * @version 2019-02-19
+ * @version 2019-02-20
  */
 @Service
 @Transactional(readOnly = true)

@@ -3,7 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.purreceipt.entity;
 
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,12 +12,12 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 进货订单管理Entity
  * @author lvyan
- * @version 2019-02-19
+ * @version 2019-02-20
  */
 public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	
 	private static final long serialVersionUID = 1L;
-	private User supplier;		// 供应商
+	private String supplier;		// 供应商
 	private String goodsName;		// 货物名称
 	private String goodsType;		// 进货类型
 	private String unitPrice;		// 货物单价（元）
@@ -27,6 +26,8 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	private Date recDate;		// 进货时间
 	private String purchasePerson;		// 采购人
 	private String payMethod;		// 支付方式
+	private Date beginRecDate;		// 开始 进货时间
+	private Date endRecDate;		// 结束 进货时间
 	
 	public PurchaseReceipt() {
 		super();
@@ -36,11 +37,12 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 		super(id);
 	}
 
-	public User getSupplier() {
+	@Length(min=0, max=2000, message="供应商长度必须介于 0 和 2000 之间")
+	public String getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(User supplier) {
+	public void setSupplier(String supplier) {
 		this.supplier = supplier;
 	}
 	
@@ -113,4 +115,20 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 		this.payMethod = payMethod;
 	}
 	
+	public Date getBeginRecDate() {
+		return beginRecDate;
+	}
+
+	public void setBeginRecDate(Date beginRecDate) {
+		this.beginRecDate = beginRecDate;
+	}
+	
+	public Date getEndRecDate() {
+		return endRecDate;
+	}
+
+	public void setEndRecDate(Date endRecDate) {
+		this.endRecDate = endRecDate;
+	}
+		
 }

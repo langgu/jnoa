@@ -84,7 +84,7 @@ public class InfcPurReceiptController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/supplier/supplier/?repage";
 	}*/
 /**
- * @description 获取供应商详细信息
+ * @description 获取订单详细信息
  * @author cwb
  * @date 2019/2/918:09
  */
@@ -102,7 +102,7 @@ public class InfcPurReceiptController extends BaseController {
 
 		Map<String,Object> map = Maps.newHashMap();
 
-		map.put("supllier",entity.getSupplier());
+		map.put("supplier",entity.getSupplier());
 		map.put("goodsName",entity.getGoodsName());
 		map.put("goodsType",entity.getGoodsType());
 		map.put("unitPrice",entity.getUnitPrice());
