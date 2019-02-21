@@ -63,6 +63,7 @@ public class InfcPurReceiptController extends BaseController {
 			//map.put("send_date",reTime);
 			map.put("goodsName",purchaseReceipt1.getGoodsName());
 			map.put("totalPrice",purchaseReceipt1.getTotalPrice());
+			map.put("goodsType",purchaseReceipt1.getGoodsType());
 			Date da = purchaseReceipt1.getRecDate();
 			String strDate = format.format(da);
 			map.put("date",strDate);
