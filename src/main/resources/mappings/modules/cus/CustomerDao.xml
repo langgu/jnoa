@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.cus.dao.CustomerDao">
+    
+	<sql id="customerColumns">
+		a.id AS "id",
+		a.username AS "username",
+		a.nation AS "nation",
+		a.sex AS "sex",
+		a.source AS "source",
+		a.tel AS "tel",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a.remarks AS "remarks",
+		a.year AS "year",
+		a.month AS "month",
+		a.day AS "day"
+	</sql>
+	
+	<sql id="customerJoins">
+	</sql>
+    
+	<select id="get" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM customer a
+		<include refid="customerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM customer a
+		<include refid="customerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sex != null and sex != ''">
+				AND a.sex = #{sex}
+			</if>
+			<if test="source != null and source != ''">
+				AND a.source = #{source}
+			</if>
+			<if test="year != null and year != ''">
+				AND a.year = #{year}
+			</if>
+			<if test="month != null and month != ''">
+				AND a.month = #{month}
+			</if>
+			<if test="day != null and day != ''">
+				AND a.day = #{day}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM customer a
+		<include refid="customerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO customer(
+			id,
+			username,
+			nation,
+			sex,
+			source,
+			tel,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag,
+			remarks,
+			year,
+			month,
+			day
+		) VALUES (
+			#{id},
+			#{username},
+			#{nation},
+			#{sex},
+			#{source},
+			#{tel},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag},
+			#{remarks},
+			#{year},
+			#{month},
+			#{day}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE customer SET 	
+			username = #{username},
+			nation = #{nation},
+			sex = #{sex},
+			source = #{source},
+			tel = #{tel},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			year = #{year},
+			month = #{month},
+			day = #{day}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE customer SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

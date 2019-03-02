@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.cusorder.dao.CustomerOrderDao">
+    
+	<sql id="customerOrderColumns">
+		a.id AS "id",
+		a.cusname AS "cusname",
+		a.goods AS "goods",
+		a.price AS "price",
+		a.goodsnum AS "goodsnum",
+		a.sumprice AS "sumprice",
+		a.date AS "date",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.ordertype AS "ordertype"
+	</sql>
+	
+	<sql id="customerOrderJoins">
+	</sql>
+    
+	<select id="get" resultType="CustomerOrder">
+		SELECT 
+			<include refid="customerOrderColumns"/>
+		FROM customer_order a
+		<include refid="customerOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CustomerOrder">
+		SELECT 
+			<include refid="customerOrderColumns"/>
+		FROM customer_order a
+		<include refid="customerOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="cusname != null and cusname != ''">
+				AND a.cusname = #{cusname}
+			</if>
+			<if test="goods != null and goods != ''">
+				AND a.goods = #{goods}
+			</if>
+			<if test="price != null and price != ''">
+				AND a.price = #{price}
+			</if>
+			<if test="goodsnum != null and goodsnum != ''">
+				AND a.goodsnum = #{goodsnum}
+			</if>
+			<if test="beginDate != null and endDate != null and beginDate != '' and endDate != ''">
+				AND a.date BETWEEN #{beginDate} AND #{endDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CustomerOrder">
+		SELECT 
+			<include refid="customerOrderColumns"/>
+		FROM customer_order a
+		<include refid="customerOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO customer_order(
+			id,
+			cusname,
+			goods,
+			price,
+			goodsnum,
+			sumprice,
+			date,
+			create_date,
+			update_date,
+			create_by,
+			update_by,
+			remarks,
+			del_flag,
+			ordertype
+		) VALUES (
+			#{id},
+			#{cusname},
+			#{goods},
+			#{price},
+			#{goodsnum},
+			#{sumprice},
+			#{date},
+			#{createDate},
+			#{updateDate},
+			#{createBy.id},
+			#{updateBy.id},
+			#{remarks},
+			#{delFlag},
+			#{ordertype}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE customer_order SET 	
+			cusname = #{cusname},
+			goods = #{goods},
+			price = #{price},
+			goodsnum = #{goodsnum},
+			sumprice = #{sumprice},
+			date = #{date},
+			update_date = #{updateDate},
+			update_by = #{updateBy.id},
+			remarks = #{remarks},
+			ordertype = #{ordertype}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE customer_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
