@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.modules.purreceipt.dao.PurchaseReceiptDao;
 /**
  * 进货订单管理Service
  * @author lvyan
- * @version 2019-02-20
+ * @version 2019-02-25
  */
 @Service
 @Transactional(readOnly = true)
@@ -37,6 +37,10 @@ public class PurchaseReceiptService extends CrudService<PurchaseReceiptDao, Purc
 	@Transactional(readOnly = false)
 	public void save(PurchaseReceipt purchaseReceipt) {
 		super.save(purchaseReceipt);
+	}
+	@Transactional(readOnly = false)
+	public void update(PurchaseReceipt purchaseReceipt) {
+		super.update(purchaseReceipt);
 	}
 	
 	@Transactional(readOnly = false)

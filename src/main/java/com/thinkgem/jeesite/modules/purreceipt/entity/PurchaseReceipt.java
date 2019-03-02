@@ -12,7 +12,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 进货订单管理Entity
  * @author lvyan
- * @version 2019-02-20
+ * @version 2019-02-25
  */
 public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	
@@ -26,6 +26,7 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 	private Date recDate;		// 进货时间
 	private String purchasePerson;		// 采购人
 	private String payMethod;		// 支付方式
+	private String paySum;		// 总价之和
 	private Date beginRecDate;		// 开始 进货时间
 	private Date endRecDate;		// 结束 进货时间
 	
@@ -113,6 +114,14 @@ public class PurchaseReceipt extends DataEntity<PurchaseReceipt> {
 
 	public void setPayMethod(String payMethod) {
 		this.payMethod = payMethod;
+	}
+	
+	public String getPaySum() {
+		return paySum;
+	}
+
+	public void setPaySum(String paySum) {
+		this.paySum = paySum;
 	}
 	
 	public Date getBeginRecDate() {

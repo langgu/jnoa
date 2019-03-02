@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.purreceipt.entity.PurchaseReceipt;
 /**
  * 进货订单管理DAO接口
  * @author lvyan
- * @version 2019-02-20
+ * @version 2019-02-25
  */
 @MyBatisDao
 public interface PurchaseReceiptDao extends CrudDao<PurchaseReceipt> {

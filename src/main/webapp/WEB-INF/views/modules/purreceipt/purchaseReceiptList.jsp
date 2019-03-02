@@ -63,6 +63,9 @@
 					<form:options items="${fns:getDictList('pay_method')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+			<li><label>总价之和：</label>
+				<form:input path="paySum" htmlEscape="false" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -80,6 +83,7 @@
 				<th>进货时间</th>
 				<th>采购人</th>
 				<th>支付方式</th>
+				<th>总价之和</th>
 				<th>更新时间</th>
 				<th>备注</th>
 				<shiro:hasPermission name="purreceipt:purchaseReceipt:edit"><th>操作</th></shiro:hasPermission>
@@ -114,6 +118,9 @@
 				</td>
 				<td>
 					${fns:getDictLabel(purchaseReceipt.payMethod, 'pay_method', '')}
+				</td>
+				<td>
+					${purchaseReceipt.paySum}
 				</td>
 				<td>
 					<fmt:formatDate value="${purchaseReceipt.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

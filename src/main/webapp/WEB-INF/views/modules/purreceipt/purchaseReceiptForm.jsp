@@ -96,6 +96,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">总价之和：</label>
+			<div class="controls">
+				<form:input path="paySum" htmlEscape="false" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="2000" class="input-xxlarge "/>

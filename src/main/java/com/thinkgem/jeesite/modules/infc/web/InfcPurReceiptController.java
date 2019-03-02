@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.infc.web;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -52,9 +53,10 @@ public class InfcPurReceiptController extends BaseController {
 			status.setStatusMessage("暂无数据");
 		}
 		status.setStatusMessage("ok");
-
 		List<Map<String, Object>> mapList = Lists.newArrayList();
+		Double Sum = 0.00;
 		for(PurchaseReceipt purchaseReceipt1 : page.getList()){
+
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("id", purchaseReceipt1.getId());
 			//map.put("send_user_name", UserUtils.get(supplier1.getCreateBy().getId()).getName());
@@ -64,11 +66,17 @@ public class InfcPurReceiptController extends BaseController {
 			map.put("goodsName",purchaseReceipt1.getGoodsName());
 			map.put("totalPrice",purchaseReceipt1.getTotalPrice());
 			map.put("goodsType",purchaseReceipt1.getGoodsType());
+			/*Double price = Double.valueOf(purchaseReceipt1.getTotalPrice());
+			Sum = Sum+price;*/
 			Date da = purchaseReceipt1.getRecDate();
 			String strDate = format.format(da);
 			map.put("date",strDate);
 //			map.put("date",purchaseReceipt1.getRecDate());
+			/*String strSum = Sum.toString();
+			purchaseReceipt1.setPaySum(strSum);
+			map.put("paySum",strSum);//将总价之和加入map，传至app*/
 			mapList.add(map);
+			purchaseReceiptService.update(purchaseReceipt1);//将总价之和存入数据库
 		}
 		status.setData(mapList);
 		return this.renderString(response,status);
@@ -86,7 +94,7 @@ public class InfcPurReceiptController extends BaseController {
 	}*/
 /**
  * @description 获取订单详细信息
- * @author cwb
+ * @author lvyan
  * @date 2019/2/918:09
  */
 	@ResponseBody
@@ -122,6 +130,5 @@ public class InfcPurReceiptController extends BaseController {
 		status.setData(map);
 		return this.renderString(response,status);
 	}
-
 
 }

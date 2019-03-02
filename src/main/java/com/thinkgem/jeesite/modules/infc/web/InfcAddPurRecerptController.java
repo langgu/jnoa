@@ -35,7 +35,9 @@ public class InfcAddPurRecerptController extends BaseController {
 
 	@RequestMapping(value = "addPurReceipt",produces = MediaType.APPLICATION_JSON_VALUE,method = RequestMethod.POST)
 		public String addPurReceipt(@RequestBody PurchaseReceipt purchaseReceipt, HttpServletRequest request, HttpServletResponse response){
+
 		purchaseReceiptService.save(purchaseReceipt);
+
 		//return "redirect:"+Global.getAdminPath()+"/supplier/supplier/?repage";
 		DataStatus status = new DataStatus();
 		status.setStatusMessage("ok");
