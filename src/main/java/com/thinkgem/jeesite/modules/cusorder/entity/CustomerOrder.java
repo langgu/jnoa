@@ -25,7 +25,7 @@ public class CustomerOrder extends DataEntity<CustomerOrder> {
 	private Date date;		// 日期
 	private Date beginDate;		// 开始 日期
 	private Date endDate;		// 结束 日期
-	
+	private String ordertype;		// 支付类型
 	public CustomerOrder() {
 		super();
 	}
@@ -76,7 +76,7 @@ public class CustomerOrder extends DataEntity<CustomerOrder> {
 		this.sumprice = sumprice;
 	}
 	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date getDate() {
 		return date;
 	}
@@ -100,5 +100,12 @@ public class CustomerOrder extends DataEntity<CustomerOrder> {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-		
+
+	public String getOrdertype() {
+		return ordertype;
+	}
+
+	public void setOrdertype(String ordertype) {
+		this.ordertype = ordertype;
+	}
 }
